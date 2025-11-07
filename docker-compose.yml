@@ -14,4 +14,4 @@ services:
       - "3307:3306"   # 내 컴퓨터 3307 → 컨테이너 3306
     volumes:
       - ./db/mysql-data:/var/lib/mysql
-      - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+      - ./db/init:/docker-entrypoint-initdb.d:ro

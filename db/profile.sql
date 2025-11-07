@@ -1,0 +1,13 @@
+﻿USE testdb;
+
+CREATE TABLE IF NOT EXISTS user_profiles (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  user_id INT UNSIGNED NOT NULL,
+  major VARCHAR(100) NULL,
+  desired_role VARCHAR(100) NULL,
+  interests JSON NULL,
+  skills JSON NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NULL DEFAULT NULL,
+  CONSTRAINT fk_user_profiles_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
