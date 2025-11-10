@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret';
 
 exports.verifyToken = (req, res, next) => {
+  console.log('[authz header]', req.headers.authorization, req.headers['x-access-token']);
   const authHeader = req.headers.authorization; // "Bearer xxx"
 
   if (!authHeader) {
@@ -18,7 +19,8 @@ exports.verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded; // { id, email, iat, exp }
+    req.userId = decoded.userId ?? decoded.id; // { id, email, iat, exp }
+    req.user = { id: req.userId };
     next();
   } catch (err) {
     console.error('[verifyToken error]', err);

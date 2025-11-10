@@ -2,9 +2,11 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const userModel = require('../models/userModel');
+const User = require('../models/user'); // ← 김명진 추가
 
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret';
 const JWT_EXPIRES_IN = '7d';
+
 
 // 회원가입
 exports.signup = async (req, res) => {
@@ -20,12 +22,8 @@ exports.signup = async (req, res) => {
       return res.status(409).json({ error: '이미 가입된 이메일입니다.' });
     }
 
-    // 2) userModel이 해시 + INSERT까지 담당
-    const user = await User.create({
-      email,
-      name: name,
-      password,
-    });
+    // 2) userModel이 해시 + INSERT까지 담당// user만 되어있길래 userModel 사용 → 내부에서 해시 + passwordHash 저장 되도록 김명진 수정
+    const user = await userModel.createUser({ email, name, password });
 
     return res.status(201).json({
       message: '회원가입이 완료되었습니다.',
@@ -80,7 +78,7 @@ exports.login = async (req, res) => {
 // 내 정보 조회
 exports.me = async (req, res) => {
   try {
-    const userId = req.user?.id;
+    const userId = req.userId || (req.user && req.user.id);
     if (!userId) {
       return res.status(401).json({ error: '인증 정보가 없습니다.' });
     }
