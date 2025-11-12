@@ -15,17 +15,26 @@ services:
     volumes:
       - ../db/mysql-data:/var/lib/mysql
       - ../db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-p1234"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
     networks:
       - career-net
 
   # Backend (Node.js)
   backend:
-    build: ../backend        # 나중에 backend/Dockerfile 만들 예정
+    build: ../backend
     container_name: career-backend
+    restart: unless-stopped
     ports:
       - "4000:4000"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
+    env_file:
+      - ../backend/.env
     networks:
       - career-net
 
@@ -38,9 +47,9 @@ services:
     networks:
       - career-net
 
-  # Frontend (React) - 추후 Dockerfile 작성 예정
+  # Frontend (React)
   frontend:
-    build: ../frontend       # 나중에 frontend/Dockerfile 추가해야 함
+    build: ../frontend
     container_name: career-frontend
     ports:
       - "3000:3000"
@@ -52,7 +61,7 @@ services:
     image: nginx:latest
     container_name: career-nginx
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
     - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
