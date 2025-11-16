@@ -18,14 +18,14 @@
 }
 
 .logo {
-  width: 45px;
+  width: 100px;
 }
 
 .nav-links a {
   margin-left: 20px;
   text-decoration: none;
   color: #555;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .login-box {
