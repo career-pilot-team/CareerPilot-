@@ -1,0 +1,270 @@
+/* 전체 컨테이너 */
+.main-container {
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui,
+    sans-serif;
+  background-color: #f5f5fa;
+  min-height: 100vh;
+  color: #222;
+}
+
+/* 상단 헤더 */
+.main-header {
+  height: 60px;
+  padding: 0 80px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc; /* 헤더 (로고랑 로그인/회원가입/마이페이지 있는곳)밑에 구분선 추가 */
+}
+
+.main-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.main-logo {
+  /* height: 28px; */
+  width: 100px;
+}
+
+.main-nav-links {
+  display: flex;
+  gap: 24px;
+}
+
+.main-nav-links a {
+  font-size: 13px;
+  text-decoration: none;
+  color: #555;
+}
+
+.main-nav-links a:hover {
+  color: #8a2be2;
+}
+
+/* 히어로 섹션 */
+.hero-section {
+  position: relative;
+  margin: 32px auto 48px;     /* 위·아래 여백 */
+  max-width: 1100px;          /* 가로 길이 */
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.hero-image {
+  width: 100%;
+  height: 400px;              /* 세로 비율  */
+  object-fit: cover;
+  display: block;
+}
+
+/* 어두운 오버레이 */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.65) 0%,
+    rgba(0, 0, 0, 0.25) 55%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+/* 텍스트 + 버튼 레이아웃 */
+.hero-content {
+  position: absolute;
+  inset: 0;
+  padding: 40px 60px 28px;    /* 위쪽 여백 40, 아래쪽 28 */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;  /* 텍스트를 위쪽에 */
+  color: #fff;
+}
+
+/* STEP BY STEP */
+.hero-subtitle {
+  font-size: 60px;
+  font-weight: 1000;
+  letter-spacing: 0.03em;
+  margin-bottom: 0px;
+}
+
+/* CareerPilot */
+.hero-title {
+  font-size: 52px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+
+/* 버튼 영역 (오른쪽 아래) */
+.hero-buttons {
+  margin-top: auto;           /* 컨테이너의 맨 아래로 밀기 */
+  align-self: flex-end;       /* 오른쪽 정렬 */
+  display: flex;
+  gap: 12px;
+  padding-bottom: 4px;        /* 너무 붙으면 12~16으로 늘려도 됨 */
+}
+
+
+.hero-btn {
+  padding: 10px 18px;
+  font-size: 13px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.hero-btn-primary {
+  background-color: #8a2be2;
+  color: #ffffff;
+}
+
+.hero-btn-primary:hover {
+  background-color: #7020c0;
+}
+
+.hero-btn-secondary {
+  background-color: #ffffff;
+  color: #333;
+}
+
+.hero-btn-secondary:hover {
+  background-color: #f4f4ff;
+}
+
+/* 고민 섹션 */
+.worry-section {
+  max-width: 900px;
+  margin: 40px auto 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 0 12px;
+}
+
+.worry-text h2 {
+  font-size: 32px;
+  font-weight: 1000;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.worry-text p {
+  font-size: 16px;
+  line-height: 1;
+  text-align: center;
+  font-weight: 500;
+}
+
+.worry-emoji {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.worry-emoji img {
+  width: 120px;  
+  height: auto;
+  display: block;
+}
+
+/* 기능 카드 섹션 */
+.feature-section {
+  max-width: 1024px;
+  margin: 0 auto 60px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  padding: 0 12px 24px;
+}
+
+.feature-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+
+.feature-content {
+  padding: 18px 18px 16px;
+}
+
+.feature-tag {
+  font-size: 12px;
+  color: #8a2be2;
+  margin-bottom: 6px;
+}
+
+.feature-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.feature-btn {
+  padding: 8px 14px;
+  font-size: 12px;
+  border-radius: 999px;
+  border: 1px solid #8a2be2;
+  background-color: #f7f2ff;
+  color: #5f19aa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.feature-btn:hover {
+  background-color: #8a2be2;
+  color: #ffffff;
+}
+
+/* 반응형 */
+@media (max-width: 900px) {
+  .main-header {
+    padding: 0 24px;
+  }
+
+  .hero-section {
+    margin: 16px 16px 32px;
+  }
+
+  .hero-content {
+    padding: 40px 32px;
+  }
+
+  .feature-section {
+    grid-template-columns: 1fr;
+  }
+
+  .worry-section {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .worry-emoji {
+    font-size: 44px;
+  }
+
+  /* 왜 안먹지??
+  .worry-text h2 span.red {
+    color:#e53935 !important;;
+  }
+    */
+ 
+}
