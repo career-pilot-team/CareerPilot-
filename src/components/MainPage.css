@@ -9,7 +9,7 @@
 
 /* 상단 헤더 */
 .main-header {
-  height: 60px;
+  height: 100px;
   padding: 0 80px;
   background-color: #ffffff;
   border-bottom: 1px solid #eee;
@@ -26,29 +26,34 @@
 }
 
 .main-logo {
-  /* height: 28px; */
+
   width: 100px;
 }
 
-.main-nav-links {
+/* .main-nav-links {
   display: flex;
   gap: 24px;
-}
+} */
 
 .main-nav-links a {
-  font-size: 13px;
+  /* font-size: 13px;
+  text-decoration: none;
+  color: #555; */
+    margin-left: 20px;
   text-decoration: none;
   color: #555;
+  font-size: 12px;
 }
 
 .main-nav-links a:hover {
-  color: #8a2be2;
+  /* color: #8a2be2; */
+  font-weight: 1000;
 }
 
 /* 히어로 섹션 */
 .hero-section {
   position: relative;
-  margin: 32px auto 48px;     /* 위·아래 여백 */
+  margin: 64px auto 48px;     /* 위·아래 여백 */
   max-width: 1100px;          /* 가로 길이 */
   border-radius: 24px;
   overflow: hidden;
@@ -177,7 +182,8 @@
 
 /* 기능 카드 섹션 */
 .feature-section {
-  max-width: 1024px;
+  /* max-width: 1024px; */
+  max-width: 1100px;
   margin: 0 auto 60px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

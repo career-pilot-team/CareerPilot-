@@ -1,0 +1,212 @@
+/*
+.login-container {
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui,
+    sans-serif;
+  background-color: #f5f5fa;
+  min-height: 100vh;
+  color: #222;
+}
+
+.header {
+
+    height: 60px;
+  padding: 0 80px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc; 
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.logo {
+  width: 100px;
+}
+
+.nav-links a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #555;
+  font-size: 12px;
+}
+*/
+
+
+
+/* 전체 레이아웃 */
+.mypage-container {
+  min-height: 100vh;
+  background-color: #f5f5fb; 
+  font-family: "Pretendard", -apple-system, system-ui, sans-serif;
+}
+
+/* 헤더 */
+.mypage-header {
+  height: 100px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ececf4;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+  border-bottom: 1px solid #ccc; /* 헤더 (로고랑 로그인/회원가입/마이페이지 있는곳)밑에 구분선 추가 */
+}
+
+.mypage-header-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/* 
+.mypage-nav {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+}
+
+.mypage-nav a {
+  text-decoration: none;
+  color: #666873;
+} */
+
+.nav-links a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #555;
+  font-size: 12px;
+}
+
+/* .mypage-nav a.active {
+  font-weight: 600;
+  color: #333544;
+} */
+
+.nav-links a.active {
+  font-weight: 600;
+  color: #333544;
+}
+
+
+/* 메인 컨텐츠 영역 */
+.mypage-main {
+  max-width: 1080px;
+  margin: 56px auto 72px;
+  padding: 0 24px 48px;
+}
+
+/* 프로필 영역 */
+.mypage-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.profile-avatar {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 20%, #f7f0ff 0, #c7b8ff 45%, #a38bff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.profile-avatar-icon {
+  font-size: 64px;
+}
+
+.profile-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #222331;
+  margin-bottom: 4px;
+}
+
+.profile-email {
+  font-size: 13px;
+  color: #9a9db0;
+}
+
+/* 카드 박스 */
+.mypage-card {
+  background-color: #ffffff;
+  border-radius: 24px;
+  padding: 32px 40px 36px;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.06);
+}
+
+/* 폼 그리드 */
+.mypage-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 32px;
+}
+
+/* 공통 폼 스타일 */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 12px;
+  color: #8b8ea0;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group textarea {
+  border-radius: 10px;
+  border: 1px solid #e3e4ef;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: #333544;
+  background-color: #fafbff;
+  outline: none;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #b3b6c7;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #a98bff;
+  box-shadow: 0 0 0 1px rgba(169, 139, 255, 0.3);
+  background-color: #ffffff;
+}
+
+
+.form-group-textarea textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+/* 반응형 (태블릿 이하) */
+@media (max-width: 768px) {
+  .mypage-main {
+    margin-top: 40px;
+  }
+
+  .mypage-card {
+    padding: 24px 20px 28px;
+  }
+
+  .mypage-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group-textarea {
+    grid-column: auto;
+  }
+}
