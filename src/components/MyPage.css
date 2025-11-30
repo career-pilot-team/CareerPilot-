@@ -1,28 +1,51 @@
-/*
-.login-container {
-  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui,
-    sans-serif;
+/* .register-container {
+  font-family: "Pretendard", sans-serif;
   background-color: #f5f5fa;
   min-height: 100vh;
-  color: #222;
+  padding-top: 60px;
 }
+
 
 .header {
-
-    height: 60px;
-  padding: 0 80px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #eee;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #ccc; 
+  align-items: center;
+  padding: 20px 80px;
+  background: white;
+  border-bottom: 2px solid #eee;
 }
 
-.header-left {
+.logo {
+  width: 100px;
+}
+
+.nav-links a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #333;
+  font-size: 12px;
+}
+
+.nav-links a:hover {
+  color: #666;
+} */
+ /*여기까지 다른페이지 헤더 끌고온거*/
+ 
+/* 전체 레이아웃 */
+.mypage-container {
+  font-family: "Pretendard", sans-serif;
+  background-color: #f5f5fa;
+  min-height: 100vh;
+}
+
+
+.header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px;
+  padding: 20px 80px;
+  background: white;
+  border-bottom: 2px solid #eee;
 }
 
 
@@ -33,64 +56,12 @@
 .nav-links a {
   margin-left: 20px;
   text-decoration: none;
-  color: #555;
-  font-size: 12px;
-}
-*/
-
-
-
-/* 전체 레이아웃 */
-.mypage-container {
-  min-height: 100vh;
-  background-color: #f5f5fb; 
-  font-family: "Pretendard", -apple-system, system-ui, sans-serif;
-}
-
-/* 헤더 */
-.mypage-header {
-  height: 100px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #ececf4;
-  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
-  border-bottom: 1px solid #ccc; /* 헤더 (로고랑 로그인/회원가입/마이페이지 있는곳)밑에 구분선 추가 */
-}
-
-.mypage-header-inner {
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 14px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-/* 
-.mypage-nav {
-  display: flex;
-  gap: 20px;
-  font-size: 13px;
-}
-
-.mypage-nav a {
-  text-decoration: none;
-  color: #666873;
-} */
-
-.nav-links a {
-  margin-left: 20px;
-  text-decoration: none;
-  color: #555;
+  color: #333;
   font-size: 12px;
 }
 
-/* .mypage-nav a.active {
-  font-weight: 600;
-  color: #333544;
-} */
-
-.nav-links a.active {
-  font-weight: 600;
-  color: #333544;
+.nav-links a:hover {
+  color: #666;
 }
 
 

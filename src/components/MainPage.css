@@ -30,15 +30,8 @@
   width: 100px;
 }
 
-/* .main-nav-links {
-  display: flex;
-  gap: 24px;
-} */
 
 .main-nav-links a {
-  /* font-size: 13px;
-  text-decoration: none;
-  color: #555; */
     margin-left: 20px;
   text-decoration: none;
   color: #555;

@@ -27,13 +27,6 @@
 */
 
 .login-container {
-  /* display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: "Pretendard", sans-serif;
-  background-color: #f5f5fa;
-  min-height: 100vh;
-  color: #222; */
   font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui,
     sans-serif;
   background-color: #f5f5fa;
@@ -42,13 +35,6 @@
 }
 
 .header {
-  /* width: 90%;
-  max-width: 1100px;
-  margin: 20px auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #ccc;  */
     height: 60px;
   padding: 0 80px;
   background-color: #ffffff;
@@ -91,14 +77,14 @@
 .login-form {
   display: flex;
   flex-direction: column;
-  width: 340px;
+  width: 600px;
   margin: 0 auto;
 }
 
 .login-form label {
   text-align: left;
   font-size: 13px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   color: #333;
 }
 
@@ -107,7 +93,7 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   margin-bottom: 15px;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .login-btn {

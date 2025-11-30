@@ -6,26 +6,15 @@ const MyPage = () => {
   return (
     <div className="mypage-container">
       {/* 상단 헤더 */}
-      <header className="mypage-header">
-        <div className="mypage-header-inner">
-          <img src={logo} alt="logo" className="logo" />
-          {/* <nav className="mypage-nav">
-            <a href="/login">로그인</a>
-            <a href="/register">회원가입</a>
-            <a href="/mypage" className="active">
-              마이페이지
-            </a>
-          </nav>
-        </div>
-      </header> */}
-    <nav className="nav-links">
-          <a href="#">로그인</a>
-          <a href="#">회원가입</a>
-          <a href="#" className="active">마이페이지</a>
-        </nav>
-        </div>
-      </header>
-      
+          <header className="header">
+              <img src={logo} alt="logo" className="logo" />
+              <nav className="nav-links">
+                <a href="#">로그인</a>
+                <a href="#">회원가입</a>
+                <a href="#">마이페이지</a>
+              </nav>
+            </header>
+    
 
 
       {/* 메인 영역 */}
