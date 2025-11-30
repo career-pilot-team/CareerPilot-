@@ -3,6 +3,7 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import "./Feature2Page.css";
 // import feature2Img from "../assets/feature2Img.png";
 import logo from "../assets/logo.png";
+import { Link } from "react-router-dom";
 
 const INITIAL_TRACKS = [
   {
@@ -104,11 +105,13 @@ function Feature2Page() {
       <div className="feature2-container">
 
             <header className="header">
+              <Link to="/" className="logo-link">
                  <img src={logo} alt="logo" className="feature2-logo" />
+                 </Link>
                      <nav className="nav-links">
-                          <a href="#">로그인</a>
-                          <a href="#">회원가입</a>
-                       <a href="#">마이페이지</a>
+                          <Link to="/login">로그인</Link>
+                          <Link to="/register">회원가입</Link>
+                          <Link to="/mypage">마이페이지</Link>
                  </nav>
            </header>
 

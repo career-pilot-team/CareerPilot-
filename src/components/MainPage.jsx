@@ -1,5 +1,6 @@
 import React from "react";
 import "./MainPage.css";
+import { Link } from "react-router-dom";
 
 import logo from "../assets/logo.png";
 import mainImg1 from "../assets/mainImg_1.jpg";
@@ -14,13 +15,15 @@ const MainPage = () => {
       {/* 상단 헤더 */}
       <header className="main-header">
         <div className="main-header-left">
+          <Link to="/" className="logo-link">
           <img src={logo} alt="CareerPilot 로고" className="main-logo" />
+          </Link>
           {/* <span className="main-logo-text">PILOT</span> */}
         </div>
         <nav className="main-nav-links">
-          <a href="/login">로그인</a>
-          <a href="/register">회원가입</a>
-          <a href="/mypage">마이페이지</a>
+          <Link to ="/login">로그인</Link>
+          <Link to="/register">회원가입</Link>
+          <Link to="/mypage">마이페이지</Link>
         </nav>
       </header>
 
@@ -84,7 +87,8 @@ const MainPage = () => {
             <h3 className="feature-title">
               단계별 학습 경로 &amp; 성장 트래커
             </h3>
-            <button className="feature-btn">학습 여정 시작하기</button>
+            <Link to="/growth" className="feature-btn">학습 여정 시작하기
+          </Link>
           </div>
         </article>
 

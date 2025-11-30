@@ -30,6 +30,11 @@
   width: 100px;
 }
 
+.logo-link {
+  display: inline-block; /* 클릭 영역이 로고 크기랑 딱 맞게 */
+}
+
+
 
 .main-nav-links a {
     margin-left: 20px;
@@ -226,6 +231,11 @@
   color: #5f19aa;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.feature-btn {
+  text-decoration: none;
+  display: inline-block;
 }
 
 .feature-btn:hover {

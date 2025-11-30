@@ -20,6 +20,11 @@
   width: 100px;
 }
 
+.logo-link {
+  display: inline-block; /* 클릭 영역이 로고 크기랑 딱 맞게 */
+}
+
+
 .nav-links a {
   margin-left: 20px;
   text-decoration: none;
@@ -129,3 +134,4 @@
 .submit-btn:hover {
   background-color: #e34234;
 }
+
