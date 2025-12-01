@@ -1,14 +1,17 @@
 import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
+import RoadmapInput from "./components/RoadmapInput";
+import RoadmapOutput from "./components/RoadmapOutput";
 import MainPage from "./components/MainPage";
 import MyPage from "./components/MyPage";
 import Feature2Page from "./components/Feature2Page";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
         {/*메인페이지 랜딩*/}
         <Route path="/" element={<MainPage />} />
@@ -18,10 +21,12 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/growth" element={<Feature2Page />} />
-        
+
+        {/* 추천입력/추천결과 페이지*/}
+        <Route path="/roadmap-input" element={<RoadmapInput />} />
+        <Route path="/roadmap-output" element={<RoadmapOutput />} />        
       </Routes>
-    </Router>
+    </BrowserRouter>
   )
 }
-
 export default App;
