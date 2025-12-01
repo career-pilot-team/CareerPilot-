@@ -235,8 +235,96 @@ async function getLatestResult(req, res) {
   }
 }
 
+// 체크리스트 완료/취소 업데이트
+// PATCH /api/recommend/tasks/:taskId
+async function updateTaskStatus(req, res) {
+  const userId = req.userId;
+  const taskId = parseInt(req.params.taskId, 10);
+
+  if (!userId) {
+    return res
+      .status(401)
+      .json({ ok: false, error: "로그인이 필요합니다." });
+  }
+
+  if (!Number.isInteger(taskId) || taskId <= 0) {
+    return res
+      .status(400)
+      .json({ ok: false, error: "유효한 taskId가 아닙니다." });
+  }
+
+  const { isDone } = req.body || {};
+
+  // isDone은 true/false만 허용
+  if (typeof isDone !== "boolean") {
+    return res.status(400).json({
+      ok: false,
+      error: "isDone 필드는 true/false(Boolean) 형태여야 합니다.",
+    });
+  }
+
+  try {
+    // 1) Task 조회
+    const task = await RecommendTask.findByPk(taskId);
+    if (!task) {
+      return res
+        .status(404)
+        .json({ ok: false, error: "해당 체크리스트 항목을 찾을 수 없습니다." });
+    }
+
+    // 2) Track 조회
+    const track = await RecommendTrack.findByPk(task.trackId);
+    if (!track) {
+      return res.status(404).json({
+        ok: false,
+        error: "해당 체크리스트가 속한 트랙을 찾을 수 없습니다.",
+      });
+    }
+
+    // 3) Result + userId로 소유자 검증
+    const result = await RecommendResult.findOne({
+      where: {
+        id: track.resultId,
+        userId, // 내 추천 결과가 아니면 접근 불가
+      },
+    });
+
+    if (!result) {
+      return res.status(403).json({
+        ok: false,
+        error: "이 체크리스트를 수정할 권한이 없습니다.",
+      });
+    }
+
+    // 4) isDone 업데이트
+    task.isDone = isDone;
+    task.updatedAt = new Date();
+    await task.save();
+
+    return res.json({
+      ok: true,
+      task: {
+        id: task.id,
+        trackId: task.trackId,
+        label: task.label,
+        orderIndex: task.orderIndex,
+        isDone: task.isDone,
+        createdAt: task.createdAt,
+        updatedAt: task.updatedAt,
+      },
+    });
+  } catch (err) {
+    console.error("[updateTaskStatus error]", err);
+    return res.status(500).json({
+      ok: false,
+      error: "체크리스트 상태 업데이트 중 오류가 발생했습니다.",
+    });
+  }
+}
+
 module.exports = { 
   getDetailedRecommendation,
   saveResult,
   getLatestResult,
+  updateTaskStatus,
 };
