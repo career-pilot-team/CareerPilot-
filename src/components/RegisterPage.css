@@ -1,0 +1,131 @@
+/* 전체 컨테이너 */
+.register-container {
+  font-family: "Pretendard", sans-serif;
+  background-color: #f5f5fa;
+  min-height: 100vh;
+  padding-top: 60px;
+}
+
+/* 상단 헤더 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 80px;
+  background: white;
+  border-bottom: 2px solid #eee;
+}
+
+.logo {
+  width: 100px;
+}
+
+.nav-links a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #333;
+  font-size: 12px;
+}
+
+.nav-links a:hover {
+  color: #666;
+}
+
+/* 메인 회원가입 박스 */
+.register-box {
+  max-width: 480px;
+  background: white;
+  margin: 0 auto;
+  padding: 40px 50px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  text-align: left;
+}
+
+.register-box h1 {
+  text-align: center;
+  margin-bottom: 35px;
+  font-weight: 600;
+  font-size: 28px;
+}
+
+/* 입력 폼 */
+.register-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.register-form input,
+.register-form select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  outline: none;
+}
+
+.register-form input:focus,
+.register-form select:focus {
+  border-color: e34234;
+  box-shadow: 0 0 0 2px rgba(227, 66, 52, 0.15);
+}
+
+/* 2개 나란히 배치 */
+.row {
+  display: flex;
+  gap: 32px;
+}
+
+.half {
+  flex: 1;
+}
+
+.row .half input,
+.row .half select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* 자꾸 에러나서 주석처리함- 왼쪽정렬되어야하는데 오른쪽으로 붙음
+/* 약관 체크박스 */
+/* .checkbox-group {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 18px;
+  gap: 8px;
+  justify-content: flex-start;
+}
+
+
+.checkbox-group input {
+  margin-top: 3px;
+}
+
+.terms-text {
+  color: #6b6b6b;
+  font-size: 13px;
+  text-align: left;
+} */ 
+
+/* 제출 버튼 */
+.submit-btn {
+  width: 105%;
+  padding: 12px;
+  background-color: #222;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #444;
+}

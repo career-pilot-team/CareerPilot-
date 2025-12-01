@@ -18,7 +18,7 @@ exports.verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded; // { id, email, iat, exp }
+     req.userId = decoded.userId ?? decoded.id;   // 페이로드 키 호환 위해 김명진 추가
     next();
   } catch (err) {
     console.error('[verifyToken error]', err);
