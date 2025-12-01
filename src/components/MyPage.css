@@ -1,37 +1,4 @@
-/* .register-container {
-  font-family: "Pretendard", sans-serif;
-  background-color: #f5f5fa;
-  min-height: 100vh;
-  padding-top: 60px;
-}
-
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 80px;
-  background: white;
-  border-bottom: 2px solid #eee;
-}
-
-.logo {
-  width: 100px;
-}
-
-.nav-links a {
-  margin-left: 20px;
-  text-decoration: none;
-  color: #333;
-  font-size: 12px;
-}
-
-.nav-links a:hover {
-  color: #666;
-} */
- /*여기까지 다른페이지 헤더 끌고온거*/
- 
-/* 전체 레이아웃 */
+/* 
 .mypage-container {
   font-family: "Pretendard", sans-serif;
   background-color: #f5f5fa;
@@ -54,7 +21,7 @@
 }
 
 .logo-link {
-  display: inline-block; /* 클릭 영역이 로고 크기랑 딱 맞게 */
+  display: inline-block;
 }
 
 
@@ -70,14 +37,14 @@
 }
 
 
-/* 메인 컨텐츠 영역 */
+
 .mypage-main {
   max-width: 1080px;
   margin: 56px auto 72px;
   padding: 0 24px 48px;
 }
 
-/* 프로필 영역 */
+
 .mypage-profile {
   display: flex;
   flex-direction: column;
@@ -112,7 +79,7 @@
   color: #9a9db0;
 }
 
-/* 카드 박스 */
+
 .mypage-card {
   background-color: #ffffff;
   border-radius: 24px;
@@ -120,14 +87,14 @@
   box-shadow: 0 12px 40px rgba(15, 23, 42, 0.06);
 }
 
-/* 폼 그리드 */
+
 .mypage-form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px 32px;
 }
 
-/* 공통 폼 스타일 */
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -168,7 +135,7 @@
   resize: vertical;
 }
 
-/* 반응형 (태블릿 이하) */
+
 @media (max-width: 768px) {
   .mypage-main {
     margin-top: 40px;
@@ -184,5 +151,187 @@
 
   .form-group-textarea {
     grid-column: auto;
+  }
+} */
+
+.mypage-container {
+  font-family: "Pretendard", sans-serif;
+  background-color: #f5f5fa;
+  min-height: 100vh;
+}
+
+/* 헤더 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 80px;
+  background: white;
+  border-bottom: 2px solid #eee;
+}
+
+.logo {
+  width: 100px;
+}
+
+.nav-links a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #333;
+  font-size: 12px;
+}
+
+.nav-links a:hover {
+  color: #666;
+}
+
+.mypage-main {
+  max-width: 1080px;
+  margin: 56px auto 72px;
+  padding: 0 24px 48px;
+}
+
+/* 🔹 프로필 카드 (상단 기본 정보 영역) */
+.mypage-profile-card {
+  background: #fff;
+  padding: 32px 40px;
+  border-radius: 24px;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.06);
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 20%, #f7f0ff 0, #c7b8ff 45%, #a38bff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.profile-avatar-icon {
+  font-size: 60px;
+}
+
+.profile-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: #222331;
+  margin-bottom: 4px;
+}
+
+.profile-email {
+  font-size: 13px;
+  color: #9a9db0;
+  margin-bottom: 24px;
+}
+
+/* 🔹 기본 정보 표 스타일 */
+.profile-info-box {
+  width: 100%;
+  margin-top: 14px;
+}
+
+.profile-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.profile-label {
+  font-size: 13px;
+  color: #8b8ea0;
+}
+
+.profile-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333544;
+}
+
+/* 🔹 정보 수정 카드 */
+.mypage-card {
+  background-color: #ffffff;
+  border-radius: 24px;
+  padding: 32px 40px 40px;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.06);
+}
+
+.edit-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 28px;
+  color: #333;
+}
+
+/* 폼 그리드 */
+.mypage-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 32px;
+}
+
+/* 폼 그룹 공통 */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 12px;
+  color: #8b8ea0;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group textarea {
+  border-radius: 10px;
+  border: 1px solid #e3e4ef;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: #333544;
+  background-color: #fafbff;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #a98bff;
+  box-shadow: 0 0 0 1px rgba(169, 139, 255, 0.3);
+  background-color: #ffffff;
+}
+
+.form-group-textarea textarea {
+  min-height: 110px;
+}
+
+/* 저장 버튼 */
+.edit-save-btn {
+  width: 100%;
+  margin-top: 32px;
+  background-color: #a98bff;
+  padding: 14px 0;
+  border-radius: 12px;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.edit-save-btn:hover {
+  background-color: #9378f0;
+}
+
+@media (max-width: 768px) {
+  .mypage-form-grid {
+    grid-template-columns: 1fr;
   }
 }
