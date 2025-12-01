@@ -152,4 +152,91 @@ async function saveResult(req, res) {
   }
 }
 
-module.exports = { getDetailedRecommendation, saveResult, };
+/**
+ * 내 최신 추천 결과 조회
+ * - 로그인한 userId 기준
+ * - recommend_results 1개 + 하위 tracks + tasks까지 묶어서 반환
+ * - 성장트래커 페이지에서 이 API를 호출해서 화면을 채우면 됨
+ */
+async function getLatestResult(req, res) {
+  const userId = req.userId;
+  if (!userId) {
+    return res.status(401).json({ ok: false, error: "로그인이 필요합니다." });
+  }
+
+  try {
+    // 1) 가장 최근 추천 결과 1개
+    const result = await RecommendResult.findOne({
+      where: { userId },
+      order: [["createdAt", "DESC"]],
+    });
+
+    if (!result) {
+      // 아직 추천 결과가 없을 때
+      return res.json({ ok: true, result: null });
+    }
+
+    // 2) 해당 result에 속한 트랙들
+    const tracks = await RecommendTrack.findAll({
+      where: { resultId: result.id },
+      order: [["orderIndex", "ASC"], ["id", "ASC"]],
+    });
+
+    const trackIds = tracks.map((t) => t.id);
+
+    // 3) 각 트랙의 체크리스트(task)들
+    let tasks = [];
+    if (trackIds.length > 0) {
+      tasks = await RecommendTask.findAll({
+        where: { trackId: trackIds },
+        order: [["orderIndex", "ASC"], ["id", "ASC"]],
+      });
+    }
+
+    // 4) tracks에 tasks를 붙여서 쓰기 편한 형태로 가공
+    const tracksWithTasks = tracks.map((track) => ({
+      id: track.id,
+      title: track.title,
+      orderIndex: track.orderIndex,
+      createdAt: track.createdAt,
+      updatedAt: track.updatedAt,
+      tasks: tasks
+        .filter((task) => task.trackId === track.id)
+        .map((task) => ({
+          id: task.id,
+          label: task.label,
+          orderIndex: task.orderIndex,
+          isDone: task.isDone,
+          createdAt: task.createdAt,
+          updatedAt: task.updatedAt,
+        })),
+    }));
+
+    // 5) 최종 응답
+    return res.json({
+      ok: true,
+      result: {
+        id: result.id,
+        refinedJob: result.refinedJob,
+        certifications: result.certifications || [],
+        techStack: result.techStack || [],
+        roadmap: result.roadmap || [],
+        nodes: result.nodes || [],
+        createdAt: result.createdAt,
+        updatedAt: result.updatedAt,
+        tracks: tracksWithTasks,
+      },
+    });
+  } catch (err) {
+    console.error("[getLatestResult error]", err);
+    return res
+      .status(500)
+      .json({ ok: false, error: "추천 결과 조회 중 오류가 발생했습니다." });
+  }
+}
+
+module.exports = { 
+  getDetailedRecommendation,
+  saveResult,
+  getLatestResult,
+};
