@@ -1,4 +1,4 @@
-###✨ 주요 기능
+#✨ 주요 기능
 
 ## 1. 사용자 프로필 관리
 사용자 기본 정보 저장
@@ -8,20 +8,20 @@ MySQL DB 기반 JWT 인증과 계정 관리
 ## 2. AI 기반 진로/학습 추천 (FastAPI)
 FastAPI + OpenAI API 기반 AI 추천 엔진이 제공:
 
-# 추천 항목
+### 추천 항목
 -추천 직무(Job Role)
 -필요한 기술 스택(Tech Skills)
 -추천 자격증(Certifications)
 -단계별 성장 로드맵(Tracks & Tasks)
 -직무 핵심 역량 분석 및 부족한 역량 안내
 
-# 데이터 저장
+### 데이터 저장
 Node.js 백엔드에서 AI 응답을 DB에 저장
 
 ## 3. 채용 공고 매칭 (사람인 API 연동)
 AI 추천 결과를 기반으로 사람인 채용 공고와 자동 매칭.
 
-# 매칭 기준
+### 매칭 기준
 
 -직무 명칭 기반 검색
 -AI 추천 스킬 → 채용 공고 keyword 비교
@@ -34,7 +34,6 @@ AI 추천 결과를 기반으로 사람인 채용 공고와 자동 매칭.
 https://oapi.saramin.co.kr/job-search
 
 ## 4. 성장 트래커 (AI 로드맵 기반)
-
 AI가 추천한 Tracks/Tasks 를 기반으로:
 
 -해야 할 일(To-Do) 체크
