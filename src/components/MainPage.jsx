@@ -35,12 +35,14 @@ const MainPage = () => {
           <p className="hero-subtitle">STEP BY STEP</p>
           <h1 className="hero-title">CareerPilot</h1>
           <div className="hero-buttons">
-            <button className="hero-btn hero-btn-primary">
+            <Link to="/roadmap-input" className="hero-btn hero-btn-primary">
               나의 진로 AI 추천받기
-            </button>
-            <button className="hero-btn hero-btn-secondary">
-              맞춤 진로 상담받기
-            </button>
+            </Link>
+            
+            <Link to="/growth" className="hero-btn hero-btn-secondary">
+              학습 여정 시작하기
+              </Link>
+            
           </div>
         </div>
       </section>
@@ -71,7 +73,7 @@ const MainPage = () => {
             <h3 className="feature-title">
               데이터 기반 진로 &amp; 자격증 추천 시스템
             </h3>
-            <button className="feature-btn">나의 진로 AI 추천 시작하기</button>
+            <Link to="/roadmap-input" className="feature-btn">나의 진로 AI 추천 시작하기</Link>
           </div>
         </article>
 
@@ -100,11 +102,12 @@ const MainPage = () => {
             className="feature-image"
           />
           <div className="feature-content">
-            <p className="feature-tag">포트폴리오 작성, 귀찮고 어려우시죠?</p>
+            <p className="feature-tag">채용 공고 찾기 어려우시죠?</p>
             <h3 className="feature-title">
-              포트폴리오 자동 생성 &amp; AI 피드백
+              나의 직무/자격증/스킬에 맞는 채용공고
+              
             </h3>
-            <button className="feature-btn">포트폴리오 피드백 받기</button>
+            <button className="feature-btn">나에게 딱 맞는 채용공고 보러가기</button>
           </div>
         </article>
       </section>

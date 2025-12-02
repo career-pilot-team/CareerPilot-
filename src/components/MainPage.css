@@ -121,11 +121,15 @@
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
+
 }
 
 .hero-btn-primary {
   background-color: #8a2be2;
   color: #ffffff;
+
+  text-decoration: none;
+  display: inline-block;
 }
 
 .hero-btn-primary:hover {
@@ -135,6 +139,9 @@
 .hero-btn-secondary {
   background-color: #ffffff;
   color: #333;
+
+  text-decoration: none;
+  display: inline-block;
 }
 
 .hero-btn-secondary:hover {
