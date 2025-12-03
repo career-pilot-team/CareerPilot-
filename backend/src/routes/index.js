@@ -4,9 +4,10 @@ const router = express.Router();
 
 const authRoutes = require('./authRoutes');
 const profileRoutes = require('./profileRoutes');
-const recommendRoutes = require('./recommendRoutes'); // ✅ AI 추천 라우트 추가
+const recommendRoutes = require('./recommendRoutes'); 
+const jobRoutes = require('./jobRoutes'); // ⭐ 신규 추가
 
-// 헬스체크용 엔드포인트
+// 헬스체크
 router.get('/health', (req, res) => {
   res.json({ ok: true, api: 'backend', path: '/api/health' });
 });
@@ -14,6 +15,7 @@ router.get('/health', (req, res) => {
 // 라우트 등록
 router.use('/auth', authRoutes);
 router.use('/profile', profileRoutes);
-router.use('/recommend', recommendRoutes); // ✅ AI 연결
+router.use('/recommend', recommendRoutes);
+router.use('/jobs', jobRoutes); // ⭐ 신규 라우트 등록
 
 module.exports = router;
