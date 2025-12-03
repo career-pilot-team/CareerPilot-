@@ -1,6 +1,8 @@
 name: Backend CI
 
 on:
+  push:
+    branches: [ Develop]
   pull_request:
     branches: [ Develop ]
     paths-ignore:
