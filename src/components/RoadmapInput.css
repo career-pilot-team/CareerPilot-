@@ -1,0 +1,266 @@
+.feature2-page {
+  background-color: #f6f6fb;
+  min-height: 100vh;
+  padding: 0 0 80px;
+}
+
+.feature2-container {
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui,
+    sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 24px 0;
+  color: #222;
+}
+
+.roadmap-input-section {
+  text-align: center;
+}
+
+.roadmap-input-title {
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.roadmap-input-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+/* 🔹 폼+설명 2컬럼 레이아웃 */
+.roadmap-input-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));  /* 1 : 1 비율 */
+  gap: 20px;
+  align-items: stretch;
+  margin-bottom: 20px;
+}
+
+/* 공통 카드 스타일: 폼 + 설명 카드 */
+.roadmap-input-card,
+.roadmap-sidecard {
+  border-radius: 24px;
+  padding: 28px 32px 24px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+  text-align: left;
+
+  /* 두 카드가 그리드 높이를 같이 쓰도록 */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  /* ✅ 둘 다 같은 배경 + 테두리 */
+  background-color: #ffffff;
+  border: 1px solid #eee1ff;
+}
+
+/* 폼 카드 – 추가 스타일 필요 없음 */
+.roadmap-input-card {
+}
+
+/* 설명 카드 – 텍스트 스타일만 */
+.roadmap-sidecard {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #374151;
+}
+
+.roadmap-sidecard h3 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.roadmap-sidecard ul {
+  padding-left: 18px;
+  margin: 0 0 10px;
+}
+
+.roadmap-sidecard li + li {
+  margin-top: 4px;
+}
+
+.sidecard-footnote {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+/* 폼 필드 등 나머지는 그대로 */
+.ri-field {
+  margin-bottom: 18px;
+}
+
+.ri-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.ri-hint {
+  font-weight: 400;
+  font-size: 11px;
+  color: #9ca3af;
+  margin-left: 4px;
+}
+
+.ri-input {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 10px 12px;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ri-input:focus {
+  border-color: #4f46e5; /* 파란 계열 */
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.18);
+}
+
+.ri-preset-row {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* 프리셋 칩 버튼 – 기본 (직무) */
+.ri-chip {
+  border: none;
+  outline: none;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  cursor: pointer;
+  background: #e0ecff;           /* 연한 파랑 배경 */
+  color: #1d4ed8;                /* 진한 파랑 글자 */
+  font-weight: 600;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.1s ease;
+}
+
+/* 프리셋 칩 – 세컨더리 (관심 분야) */
+.ri-chip-secondary {
+  background: #eef2ff;           /* 약간 보라 섞인 파랑 */
+  color: #4338ca;
+}
+
+.ri-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35); /* 파랑 그림자 */
+  opacity: 0.95;
+}
+
+.ri-footer {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.ri-submit {
+  border: none;
+  outline: none;
+  border-radius: 999px;
+  padding: 11px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(90deg, #4f46e5, #2563eb); /* 보라→파랑 그라데이션 */
+  color: #ffffff;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+}
+
+.ri-submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.45);
+  opacity: 0.97;
+}
+
+.ri-submit:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.ri-error {
+  font-size: 12px;
+  color: #d13939;
+}
+
+/* 반응형 */
+@media (max-width: 900px) {
+  .feature2-container {
+    padding-top: 60px;
+  }
+
+  .roadmap-input-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .roadmap-input-card,
+  .roadmap-sidecard {
+    padding: 22px 18px 20px;
+  }
+}
+
+/* 오른쪽 컬럼 전체 랩 (지금은 안 써도 무방) */
+.roadmap-side {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* f1input 이미지가 들어가는 카드 (지금은 사용 안 해도 됨) */
+.roadmap-side-visual {
+  position: relative;
+  border-radius: 24px;
+  padding: 18px 14px 10px;
+  background: linear-gradient(145deg, #fef6ff, #e6f5ff);
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.06);
+  overflow: hidden;
+}
+
+.roadmap-side-visual-img {
+  display: block;
+  width: 115%;
+  max-width: none;
+  margin: 0 auto;
+  transform: translateY(4px);
+  pointer-events: none;
+}
+
+/* 반응형 – 모바일에서 자연스럽게 쌓이게 */
+@media (max-width: 900px) {
+  .roadmap-side {
+    order: -1;
+  }
+
+  .roadmap-side-visual {
+    margin-bottom: 4px;
+  }
+
+  .roadmap-side-visual-img {
+    width: 100%;
+  }
+}
+
+/* 상단 히어로 이미지 랩퍼 */
+.roadmap-hero-wrap {
+  max-width: 720px;
+  margin: 20px auto 28px;
+}
+
+/* 히어로 이미지 자체 */
+.roadmap-hero-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0;
+  box-shadow: none;
+}
