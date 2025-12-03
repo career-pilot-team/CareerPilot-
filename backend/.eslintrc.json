@@ -1,0 +1,15 @@
+{
+  "languageOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "script",
+    "globals": {
+      "process": "readonly",
+      "__dirname": "readonly",
+      "require": "readonly",
+      "module": "readonly"
+    }
+  },
+  "env": {
+    "node": true
+  }
+}

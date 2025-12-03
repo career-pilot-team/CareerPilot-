@@ -1,62 +1,60 @@
 // src/controllers/recommendController.js
 const axios = require("axios");
 const UserProfile = require("../models/userProfile");
-// 새로 추가: 추천 결과 저장용 모델
 const sequelize = require("../db");
 const RecommendResult = require("../models/recommendResult");
 const RecommendTrack = require("../models/recommendTrack");
 const RecommendTask = require("../models/recommendTask");
 
-const AI_API_URL = process.env.AI_API_URL || "http://ai-server:8000/ai/recommend/detailed";
+const AI_API_URL =
+  process.env.AI_API_URL || "http://ai-server:8000/ai/recommend/detailed";
 
-// 프로필 자동 반영 + body 로직 추가
+// -----------------------------
+// 1) 상세 추천 생성 (AI 서버 호출)
+// -----------------------------
 async function getDetailedRecommendation(req, res) {
   try {
     const userId = req.userId;
-    // 1) DB에서 프로필 불러오기
+
     const profile = await UserProfile.findOne({ where: { userId } });
-    
-    // 2) body 값 (우선순위 높음)
+
     const {
       major: bMajor,
       desiredJob: bDesiredJob,
       interests: bInterests,
       skills: bSkills,
     } = req.body || {};
-    
-    // 3) body → profile 순으로 병합
+
     const major = bMajor ?? profile?.major ?? "";
     const desiredJob = bDesiredJob ?? profile?.desiredRole ?? "";
     const interests = bInterests ?? profile?.interests ?? [];
     const skills = bSkills ?? profile?.skills ?? [];
-    
-    // 추가: 프로필도 없고 body도 비어있으면 안내
+
     if (!major && !desiredJob && (!interests?.length) && (!skills?.length)) {
       return res.status(400).json({
         ok: false,
-        error: "프로필이 없습니다. 먼저 프로필을 작성하세요."
+        error: "프로필이 없습니다. 먼저 프로필을 작성하세요.",
       });
     }
 
-    // 4) AI 서버 호출
     const { data } = await axios.post(
       AI_API_URL,
       { major, desiredJob, interests, skills },
       { timeout: 15000 }
     );
-    
+
     return res.json({ ok: true, data });
   } catch (e) {
     console.error("AI service call failed:", e?.response?.data || e.message);
-    return res.status(502).json({ ok: false, error: "AI service unavailable" });
+    return res
+      .status(502)
+      .json({ ok: false, error: "AI service unavailable" });
   }
 }
 
-/**
- *  새로 구현: AI 추천 결과를 DB에 저장하는 API
- * - 요청 바디에는 AI 응답 JSON 그대로 온다고 가정
- * - 로그인된 유저 기준으로 recommend_results / tracks / tasks에 insert
- */
+// -----------------------------
+// 2) 추천 결과 저장 (result + tracks + tasks)
+// -----------------------------
 async function saveResult(req, res) {
   const userId = req.userId;
 
@@ -73,22 +71,22 @@ async function saveResult(req, res) {
     tracks = [],
   } = req.body || {};
 
-  // 최소한 뭔가 내용은 있어야 저장
   if (
     !refinedJob &&
     (!Array.isArray(roadmap) || roadmap.length === 0) &&
     (!Array.isArray(tracks) || tracks.length === 0)
   ) {
-    return res
-      .status(400)
-      .json({ ok: false, error: "저장할 추천 결과 데이터가 비어 있습니다." });
+    return res.status(400).json({
+      ok: false,
+      error: "저장할 추천 결과 데이터가 비어 있습니다.",
+    });
   }
 
   const t = await sequelize.transaction();
   const now = new Date();
 
   try {
-    // 1) recommend_results에 저장 (메인 결과)
+    // 1) recommend_results 에 메인 결과 저장
     const result = await RecommendResult.create(
       {
         userId,
@@ -109,17 +107,20 @@ async function saveResult(req, res) {
         const track = tracks[i];
         if (!track) continue;
 
+        // Track 한 줄 insert (RecommendTrack)
         const trackRow = await RecommendTrack.create(
           {
             resultId: result.id,
+            trackKey: track.id || null, // 프론트에서 온 id (있으면)
             title: track.title || "",
-            orderIndex: i, // 순서용
+            orderNo: i, // 정렬용
             createdAt: now,
             updatedAt: now,
           },
           { transaction: t }
         );
 
+        // 그 아래에 Task들 insert (RecommendTask)
         const tasks = Array.isArray(track.tasks) ? track.tasks : [];
         for (let j = 0; j < tasks.length; j++) {
           const task = tasks[j];
@@ -129,9 +130,8 @@ async function saveResult(req, res) {
             {
               trackId: trackRow.id,
               label: task.label || "",
-              orderIndex: j,
-              // 처음 저장할 때는 전부 미완료 상태
-              isDone: false,
+              orderNo: j, // 정렬용
+              done: false, // 모델 상 필드는 done
               createdAt: now,
               updatedAt: now,
             },
@@ -146,18 +146,16 @@ async function saveResult(req, res) {
   } catch (err) {
     await t.rollback();
     console.error("[saveResult error]", err);
-    return res
-      .status(500)
-      .json({ ok: false, error: "추천 결과 저장 중 오류가 발생했습니다." });
+    return res.status(500).json({
+      ok: false,
+      error: "추천 결과 저장 중 오류가 발생했습니다.",
+    });
   }
 }
 
-/**
- * 내 최신 추천 결과 조회
- * - 로그인한 userId 기준
- * - recommend_results 1개 + 하위 tracks + tasks까지 묶어서 반환
- * - 성장트래커 페이지에서 이 API를 호출해서 화면을 채우면 됨
- */
+// -----------------------------
+// 3) 최신 추천 결과 조회
+// -----------------------------
 async function getLatestResult(req, res) {
   const userId = req.userId;
   if (!userId) {
@@ -165,39 +163,38 @@ async function getLatestResult(req, res) {
   }
 
   try {
-    // 1) 가장 최근 추천 결과 1개
+    // 1) 가장 최근 RecommendResult 1개
     const result = await RecommendResult.findOne({
       where: { userId },
       order: [["createdAt", "DESC"]],
     });
 
     if (!result) {
-      // 아직 추천 결과가 없을 때
       return res.json({ ok: true, result: null });
     }
 
-    // 2) 해당 result에 속한 트랙들
+    // 2) 해당 result의 트랙들
     const tracks = await RecommendTrack.findAll({
       where: { resultId: result.id },
-      order: [["orderIndex", "ASC"], ["id", "ASC"]],
+      order: [["orderNo", "ASC"], ["id", "ASC"]],
     });
 
     const trackIds = tracks.map((t) => t.id);
 
-    // 3) 각 트랙의 체크리스트(task)들
+    // 3) 각 트랙의 태스크들
     let tasks = [];
     if (trackIds.length > 0) {
       tasks = await RecommendTask.findAll({
         where: { trackId: trackIds },
-        order: [["orderIndex", "ASC"], ["id", "ASC"]],
+        order: [["orderNo", "ASC"], ["id", "ASC"]],
       });
     }
 
-    // 4) tracks에 tasks를 붙여서 쓰기 편한 형태로 가공
+    // 4) 트랙별로 tasks 매핑
     const tracksWithTasks = tracks.map((track) => ({
       id: track.id,
       title: track.title,
-      orderIndex: track.orderIndex,
+      orderIndex: track.orderNo, // 프론트 호환을 위해 orderIndex 로 내려줌
       createdAt: track.createdAt,
       updatedAt: track.updatedAt,
       tasks: tasks
@@ -205,14 +202,13 @@ async function getLatestResult(req, res) {
         .map((task) => ({
           id: task.id,
           label: task.label,
-          orderIndex: task.orderIndex,
-          isDone: task.isDone,
+          orderIndex: task.orderNo, // 프론트에선 orderIndex 사용
+          isDone: task.done, // DB 필드명은 done
           createdAt: task.createdAt,
           updatedAt: task.updatedAt,
         })),
     }));
 
-    // 5) 최종 응답
     return res.json({
       ok: true,
       result: {
@@ -229,22 +225,22 @@ async function getLatestResult(req, res) {
     });
   } catch (err) {
     console.error("[getLatestResult error]", err);
-    return res
-      .status(500)
-      .json({ ok: false, error: "추천 결과 조회 중 오류가 발생했습니다." });
+    return res.status(500).json({
+      ok: false,
+      error: "추천 결과 조회 중 오류가 발생했습니다.",
+    });
   }
 }
 
-// 체크리스트 완료/취소 업데이트
-// PATCH /api/recommend/tasks/:taskId
+// -----------------------------
+// 4) 체크리스트 완료/취소 토글
+// -----------------------------
 async function updateTaskStatus(req, res) {
   const userId = req.userId;
   const taskId = parseInt(req.params.taskId, 10);
 
   if (!userId) {
-    return res
-      .status(401)
-      .json({ ok: false, error: "로그인이 필요합니다." });
+    return res.status(401).json({ ok: false, error: "로그인이 필요합니다." });
   }
 
   if (!Number.isInteger(taskId) || taskId <= 0) {
@@ -255,7 +251,6 @@ async function updateTaskStatus(req, res) {
 
   const { isDone } = req.body || {};
 
-  // isDone은 true/false만 허용
   if (typeof isDone !== "boolean") {
     return res.status(400).json({
       ok: false,
@@ -264,15 +259,14 @@ async function updateTaskStatus(req, res) {
   }
 
   try {
-    // 1) Task 조회
     const task = await RecommendTask.findByPk(taskId);
     if (!task) {
-      return res
-        .status(404)
-        .json({ ok: false, error: "해당 체크리스트 항목을 찾을 수 없습니다." });
+      return res.status(404).json({
+        ok: false,
+        error: "해당 체크리스트 항목을 찾을 수 없습니다.",
+      });
     }
 
-    // 2) Track 조회
     const track = await RecommendTrack.findByPk(task.trackId);
     if (!track) {
       return res.status(404).json({
@@ -281,12 +275,8 @@ async function updateTaskStatus(req, res) {
       });
     }
 
-    // 3) Result + userId로 소유자 검증
     const result = await RecommendResult.findOne({
-      where: {
-        id: track.resultId,
-        userId, // 내 추천 결과가 아니면 접근 불가
-      },
+      where: { id: track.resultId, userId },
     });
 
     if (!result) {
@@ -296,8 +286,8 @@ async function updateTaskStatus(req, res) {
       });
     }
 
-    // 4) isDone 업데이트
-    task.isDone = isDone;
+    // DB 필드명은 done
+    task.done = isDone;
     task.updatedAt = new Date();
     await task.save();
 
@@ -307,8 +297,8 @@ async function updateTaskStatus(req, res) {
         id: task.id,
         trackId: task.trackId,
         label: task.label,
-        orderIndex: task.orderIndex,
-        isDone: task.isDone,
+        orderIndex: task.orderNo,
+        isDone: task.done,
         createdAt: task.createdAt,
         updatedAt: task.updatedAt,
       },
@@ -322,7 +312,7 @@ async function updateTaskStatus(req, res) {
   }
 }
 
-module.exports = { 
+module.exports = {
   getDetailedRecommendation,
   saveResult,
   getLatestResult,
