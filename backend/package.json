@@ -8,7 +8,7 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "test": "jest --detectOpenHandles",
-    "test:integration": "jest --runTestsByPath ./tests/integration"
+    "test:integration": "jest ./tests/integration"
   },
   "author": "",
   "license": "ISC",
