@@ -1,0 +1,9 @@
+# 빌드에 필요 없는 폴더/파일들
+node_modules
+db/mysql-data
+db/init
+backend
+ai-server
+docker
+.git
+.gitignore
