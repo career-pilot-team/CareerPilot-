@@ -15,15 +15,19 @@ services:
       interval: 5s
       timeout: 3s
       retries: 20
+    networks:
+      - ci-net
 
   backend:
     build:
-      context: ${{ github.workspace }}/backend
+      context: ../backend
     depends_on:
       mysql:
         condition: service_healthy
     env_file:
-      - ${{ github.workspace }}/backend/.env
+    - ../backend/.env
+    networks:
+      - ci-net
 
 networks:
   ci-net:
