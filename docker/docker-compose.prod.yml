@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: career-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    networks:
+      - career-net
+
+  backend:
+    image: ta3woong/career-backend:latest   # ← 도커허브 이미지
+    container_name: career-backend
+    restart: unless-stopped
+    env_file:
+      - ../backend/.env.prod
+    depends_on:
+      - mysql
+    networks:
+      - career-net
+
+  ai-server:
+    image: ta3woong/career-ai-server:latest
+    container_name: career-ai
+    restart: unless-stopped
+    env_file:
+      - ../ai-server/.env.prod
+    networks:
+      - career-net
+
+  frontend:
+    image: ta3woong/career-frontend:latest
+    container_name: career-frontend
+    restart: unless-stopped
+    networks:
+      - career-net
+
+  nginx:
+    image: nginx:latest
+    container_name: career-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80" # 🔥 유일하게 외부 공개되는 포트
+    depends_on:
+      - backend
+      - ai-server
+      - frontend
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - career-net
+
+networks:
+  career-net:
+    driver: bridge
