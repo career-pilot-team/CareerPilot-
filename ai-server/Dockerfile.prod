@@ -1,0 +1,16 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+
+# 의존성 먼저 설치 → 캐싱 최적화
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 소스코드 복사
+COPY . .
+
+# 운영 환경용 Uvicorn 실행 (멀티 워커 적용) --workers 2 적용 → EC2 t2.micro / t3.micro에 적합
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]
