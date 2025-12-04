@@ -1,0 +1,36 @@
+# .github/workflows/backend-lint.yml
+name: Backend Lint
+
+on:
+  push:
+    branches: [ Develop, "feature/**" ]
+    paths:
+      - "backend/**"
+  pull_request:
+    branches: [ Develop ]
+    paths:
+      - "backend/**"
+
+jobs:
+  backend-lint:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+        # eslint 설정 안 돼있으면 나중에 추가 필요

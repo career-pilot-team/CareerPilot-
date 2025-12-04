@@ -35,7 +35,22 @@ jobs:
       - name: Run backend tests
         working-directory: backend
         run: npm test
+        
+        #test
+      - name: Check DockerHub secrets exist
+        run: |
+            if [ -z "${{ secrets.DOCKERHUB_USERNAME }}" ]; then
+            echo "DOCKERHUB_USERNAME is EMPTY"
+            else
+            echo "DOCKERHUB_USERNAME is SET"
+            fi
 
+            if [ -z "${{ secrets.DOCKERHUB_TOKEN }}" ]; then
+            echo "DOCKERHUB_TOKEN is EMPTY"
+            else
+            echo "DOCKERHUB_TOKEN is SET"
+            fi
+    
       # 5) DockerHub 로그인
       - name: Login to DockerHub
         uses: docker/login-action@v3

@@ -1,0 +1,21 @@
+# .github/workflows/pr-check.yml
+name: PR Helper
+
+on:
+  pull_request:
+    branches: [ Master, Develop ]
+
+jobs:
+  add-label-and-echo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Add "needs-review" label
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          labels: "needs-review"
+
+      - name: Print PR info
+        run: |
+          echo "PR #${{ github.event.number }} from ${{ github.event.pull_request.head.ref }} to ${{ github.event.pull_request.base.ref }}"
