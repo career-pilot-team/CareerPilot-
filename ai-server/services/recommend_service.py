@@ -1,5 +1,6 @@
 import json
 import re
+from fastapi import HTTPException
 from .openai_client import client, OPENAI_MODEL
 from schemas.recommend import RecommendRequest, RecommendResponse
 
@@ -255,7 +256,8 @@ def get_detailed_recommendation(body: RecommendRequest) -> RecommendResponse:
             {"role": "user", "content": prompt},
         ],
         temperature=0.2,
-        max_tokens=800,
+        max_tokens=1400,
+        #response_format={"type":"json_object"},
     )
 
     raw = (resp.choices[0].message.content or "").strip()

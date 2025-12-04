@@ -6,7 +6,7 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
   {
-    ignores: ["./backend/**"]
+    ignores: ["../backend/**"]
   },
   
   globalIgnores(['dist']),
