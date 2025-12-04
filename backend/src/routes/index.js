@@ -6,6 +6,7 @@ const authRoutes = require('./authRoutes');
 const profileRoutes = require('./profileRoutes');
 const recommendRoutes = require('./recommendRoutes'); 
 const jobRoutes = require('./jobRoutes'); // ⭐ 신규 추가
+const resumeRoutes = require("./resumeRoutes");
 
 // 헬스체크
 router.get('/health', (req, res) => {
@@ -17,5 +18,6 @@ router.use('/auth', authRoutes);
 router.use('/profile', profileRoutes);
 router.use('/recommend', recommendRoutes);
 router.use('/jobs', jobRoutes); // ⭐ 신규 라우트 등록
+router.use("/resume", resumeRoutes);
 
 module.exports = router;
