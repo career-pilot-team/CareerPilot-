@@ -61,7 +61,7 @@ const RoadmapInput = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:8000/ai/recommend/detailed", {
+      const res = await fetch("/ai/recommend/detailed", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

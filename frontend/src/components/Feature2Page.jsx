@@ -25,7 +25,7 @@ function Feature2Page() {
     }
 
     axios
-      .get("http://localhost:4000/api/recommend/result", {
+      .get("/api/recommend/result", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -87,7 +87,7 @@ function Feature2Page() {
 
     axios
       .patch(
-        `http://localhost:4000/api/tasks/${taskId}`,
+        `/api/tasks/${taskId}`,
         { isDone: nextDone },
         {
           headers: {

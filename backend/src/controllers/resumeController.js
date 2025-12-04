@@ -1,11 +1,19 @@
 // src/controllers/resumeController.js
 const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+
 const UserProfile = require("../models/userProfile");
 const generateResumePDF = require("../utils/pdf");
 
 const OPENAI_KEY = process.env.OPENAI_API_KEY;
 const OPENAI_URL = "https://api.openai.com/v1/responses";
 
+/**
+ * ===========================
+ *  🔥 이력서 생성
+ * ===========================
+ */
 exports.generateResume = async (req, res) => {
   try {
     const userId = req.userId;
@@ -18,7 +26,26 @@ exports.generateResume = async (req, res) => {
       });
     }
 
-    const { name, email, phone, projects = [], education = [], skills = [], desiredRole = "Backend Developer", jd = "" } = req.body;
+    // desiredRole은 기본값 없이 받기
+    const desiredRole =
+      req.body.desiredRole || profile.desiredRole || null;
+
+    if (!desiredRole) {
+      return res.status(400).json({
+        ok: false,
+        error: "희망 직무(desiredRole)를 입력하거나 프로필에 등록해주세요.",
+      });
+    }
+
+    const {
+      name = profile.name,
+      email = profile.email,
+      phone = profile.phone,
+      projects = [],
+      education = [],
+      skills = [],
+      jd = "",
+    } = req.body;
 
     const prompt = `
 아래 정보를 기반으로 이력서 JSON만 반환하세요.
@@ -41,7 +68,6 @@ exports.generateResume = async (req, res) => {
 [스킬] ${JSON.stringify(skills, null, 2)}
     `;
 
-    // GPT 호출
     const ai = await axios.post(
       OPENAI_URL,
       {
@@ -56,44 +82,22 @@ exports.generateResume = async (req, res) => {
       }
     );
 
-    // GPT 응답 확인
     const raw = ai.data.output?.[0];
-    console.log("GPT Resume Raw Output:", raw.content || raw.text);
-
     const text =
       raw?.text ||
       raw?.content?.[0]?.text ||
       "";
 
-    if (!text) {
-      return res.status(500).json({
-        ok: false,
-        error: "GPT 응답에서 텍스트를 추출할 수 없습니다.",
-      });
-    }
-
-    // -----------------------------
-    // 🔥 JSON만 추출 (가장 중요)
-    // -----------------------------
     const jsonMatch = text.match(/\{[\s\S]*\}/);
-
     if (!jsonMatch) {
-      console.error("No JSON found:", text);
-      return res.status(500).json({
-        ok: false,
-        error: "GPT 응답 JSON 파싱 실패",
-      });
+      return res.status(500).json({ ok: false, error: "GPT 응답 JSON 파싱 실패" });
     }
 
-    let resumeJSON;
+    let resumeJSON = {};
     try {
       resumeJSON = JSON.parse(jsonMatch[0]);
-    } catch (e) {
-      console.error("JSON parse error:", jsonMatch[0]);
-      return res.status(500).json({
-        ok: false,
-        error: "GPT JSON을 파싱할 수 없습니다.",
-      });
+    } catch (err) {
+      return res.status(500).json({ ok: false, error: "GPT JSON을 파싱할 수 없습니다." });
     }
 
     // PDF 생성
@@ -110,13 +114,46 @@ exports.generateResume = async (req, res) => {
 
     return res.json({
       ok: true,
-      pdf: `/files/${pdfFile}`,
+      pdf: `/api/resume/download/${pdfFile}`,
     });
+
   } catch (err) {
     console.error("[generateResume error]", err);
     return res.status(500).json({
       ok: false,
       error: "이력서 생성 중 오류 발생",
+    });
+  }
+};
+
+
+/**
+ * ===========================
+ *  🔥 이력서 PDF 다운로드
+ * ===========================
+ */
+exports.downloadResume = async (req, res) => {
+  try {
+    let { fileName } = req.params;
+
+    // 보안 처리 (경로 공격 방지)
+    fileName = path.basename(fileName);
+
+    const filePath = path.join(__dirname, "../../uploads/resumes", fileName);
+
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({
+        ok: false,
+        error: "파일을 찾을 수 없습니다.",
+      });
+    }
+
+    return res.download(filePath);
+  } catch (err) {
+    console.error("[downloadResume error]", err);
+    return res.status(500).json({
+      ok: false,
+      error: "파일 다운로드 중 오류 발생",
     });
   }
 };
