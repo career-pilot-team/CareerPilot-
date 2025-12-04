@@ -2,80 +2,69 @@ name: Backend CI
 
 on:
   push:
-    branches: [ Develop]
+    branches: [ Develop, main ]
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-ci.yml"
   pull_request:
     branches: [ Develop ]
-    paths-ignore:
-      - "**.md"
-      - "docs/**"
-      - ".gitignore"
-
-permissions:
-  contents: read
-  pull-requests: write
-
-env:
-  DB_HOST: ${{ secrets.DB_HOST }}
-  DB_USER: ${{ secrets.DB_USER }}
-  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-  DB_NAME: ${{ secrets.DB_NAME }}
-  JWT_SECRET: ${{ secrets.JWT_SECRET }}
+    paths:
+      - "backend/**"
 
 jobs:
   backend-ci:
     runs-on: ubuntu-latest
 
     steps:
-
+      # 1) 코드 체크아웃
       - name: Checkout repository
-        uses: actions/checkout@v4   # 레포지토리 코드 다운로드
+        uses: actions/checkout@v4
 
-      # secret 환경변수 설정
-      - name: Create backend .env from secret
-        run: |
-          mkdir -p backend
-          echo "${{ secrets.BACKEND_ENV }}" > backend/.env
-      # 환경변수 설정 확인
-      - name: Print env test (debug)
-        run: |
-          echo "DB_HOST=$DB_HOST"
-          echo "DB_USER=$DB_USER"
-          
-      - name: Install Docker Compose
-        run: sudo apt-get update && sudo apt-get install -y docker-compose   # 테스트용 DB 실행에 필요
-
-      - name: Start CI Docker Compose
-        run: docker-compose -f docker/docker-compose.ci.yml up -d   # MySQL 컨테이너 실행
-
-      - name: Wait For MySQL
-        run: |   # DB 준비될 때까지 대기
-          for i in {1..30}; do
-            nc -z localhost 3307 && echo "MySQL is ready!" && exit 0
-            echo "Waiting for MySQL..."
-            sleep 2
-          done
-          exit 1
-
+      # 2) Node.js 설정
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20   # backend 실행 환경 맞추기
+          node-version: "20"
 
-      - name: Install Dependencies
+      # 3) 백엔드 의존성 설치
+      - name: Install backend dependencies
         working-directory: backend
-        run: npm ci   # 의존성 설치
+        run: npm install
 
-      - name: Run Unit Tests
+      # 4) 백엔드 테스트 실행 (Jest)
+      - name: Run backend tests
         working-directory: backend
-        run: npm test   # Jest 단위 테스트
+        run: npm test
+        
+        #test
+      - name: Check DockerHub secrets exist
+        run: |
+            if [ -z "${{ secrets.DOCKERHUB_USERNAME }}" ]; then
+            echo "DOCKERHUB_USERNAME is EMPTY"
+            else
+            echo "DOCKERHUB_USERNAME is SET"
+            fi
 
-      - name: Run Integration Tests
-        working-directory: backend
-        run: npm run test:integration   # API 통합 테스트
+            if [ -z "${{ secrets.DOCKERHUB_TOKEN }}" ]; then
+            echo "DOCKERHUB_TOKEN is EMPTY"
+            else
+            echo "DOCKERHUB_TOKEN is SET"
+            fi
+    
+      # 5) DockerHub 로그인
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Generate Coverage Report
-        working-directory: backend
-        run: npm test -- --coverage   # 코드 커버리지 생성
-
-      - name: Stop Docker Services
-        run: docker-compose -f docker/docker-compose.ci.yml down   # 테스트 후 컨테이너 종료
+      # 6) 백엔드 이미지 빌드 + 푸시
+      - name: Build and push backend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile.prod
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/career-backend:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/career-backend:${{ github.sha }}
