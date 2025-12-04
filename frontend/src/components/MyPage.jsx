@@ -26,10 +26,10 @@ function MyPage() {
       try {
         // user 기본 정보 + profile 정보 동시에 요청
         const [authRes, profileRes] = await Promise.all([
-          axios.get("http://localhost:4000/api/auth/me", {
+          axios.get("/api/auth/me", {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get("http://localhost:4000/api/profile/me", {
+          axios.get("/api/profile/me", {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
@@ -76,7 +76,7 @@ function MyPage() {
   const handleSave = () => {
     axios
       .post(
-        "http://localhost:4000/api/profile/me",
+        "/api/profile/me",
         {
           major: editData.major,
           desiredRole: editData.desiredRole,
