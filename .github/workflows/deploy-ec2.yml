@@ -24,12 +24,12 @@ jobs:
             cd ~/CareerPilot-   # EC2에 clone 된 위치로 수정할 것
 
             echo "기존 컨테이너 중지"
-            docker compose -f docker/docker-compose.prod.yml down
+            docker-compose -f docker/docker-compose.prod.yml down
 
             echo "DockerHub에서 최신 이미지 pull"
-            docker compose -f docker/docker-compose.prod.yml pull
+            docker-compose -f docker/docker-compose.prod.yml pull
 
             echo "컨테이너 재실행 (백그라운드)"
-            docker compose -f docker/docker-compose.prod.yml up -d --remove-orphans
+            docker-compose -f docker/docker-compose.prod.yml up -d --remove-orphans
 
             echo "배포 완료"
