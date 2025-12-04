@@ -2,6 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers.recommend import router as recommend_router
+from routers.resume import router as resume_router
 
 # 앱 생성
 app = FastAPI()
@@ -30,3 +31,8 @@ async def health():
 
 # /ai 프리픽스로 추천 관련 라우터 마운트
 app.include_router(recommend_router, prefix="/ai")
+app.include_router(resume_router, prefix="/ai")
+
+@app.get("/")
+def root():
+    return {"message": "AI Resume & Recommend Server Running"}

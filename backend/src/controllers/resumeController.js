@@ -1,23 +1,17 @@
-// src/controllers/resumeController.js
 const axios = require("axios");
-const fs = require("fs");
-const path = require("path");
-
 const UserProfile = require("../models/userProfile");
 const generateResumePDF = require("../utils/pdf");
+const path = require("path");
+const fs = require("fs");
 
-const OPENAI_KEY = process.env.OPENAI_API_KEY;
-const OPENAI_URL = "https://api.openai.com/v1/responses";
+// FastAPI 서버 주소 (Docker 환경이면 서비스명 사용)
+const FASTAPI_URL = process.env.FASTAPI_URL || "http://career-ai:8000";
 
-/**
- * ===========================
- *  🔥 이력서 생성
- * ===========================
- */
 exports.generateResume = async (req, res) => {
   try {
     const userId = req.userId;
 
+    // 유저 프로필 조회
     const profile = await UserProfile.findOne({ where: { userId } });
     if (!profile) {
       return res.status(400).json({
@@ -26,10 +20,7 @@ exports.generateResume = async (req, res) => {
       });
     }
 
-    // desiredRole은 기본값 없이 받기
-    const desiredRole =
-      req.body.desiredRole || profile.desiredRole || null;
-
+    const desiredRole = req.body.desiredRole || profile.desiredRole;
     if (!desiredRole) {
       return res.status(400).json({
         ok: false,
@@ -37,6 +28,7 @@ exports.generateResume = async (req, res) => {
       });
     }
 
+    // 프론트 요청 데이터
     const {
       name = profile.name,
       email = profile.email,
@@ -47,58 +39,21 @@ exports.generateResume = async (req, res) => {
       jd = "",
     } = req.body;
 
-    const prompt = `
-아래 정보를 기반으로 이력서 JSON만 반환하세요.
-설명 문장 금지. JSON 외 텍스트 금지.
+    // 🔥 FastAPI 로 JSON Resume 생성 요청
+    const ai = await axios.post(`${FASTAPI_URL}/ai/resume/generate`, {
+    name,
+    email,
+    phone,
+    desiredRole,
+    projects,
+    education,
+    skills,
+    jd,
+});
 
-출력형식:
-{
-  "summary": "",
-  "skills": [],
-  "projects": [
-    { "name": "", "description": "", "tech": [] }
-  ]
-}
 
-[지원직무] ${desiredRole}
-[JD] ${jd}
-[프로필] ${JSON.stringify(profile.toJSON(), null, 2)}
-[프로젝트] ${JSON.stringify(projects, null, 2)}
-[학력] ${JSON.stringify(education, null, 2)}
-[스킬] ${JSON.stringify(skills, null, 2)}
-    `;
-
-    const ai = await axios.post(
-      OPENAI_URL,
-      {
-        model: "gpt-4.1-mini",
-        input: prompt,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${OPENAI_KEY}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    const raw = ai.data.output?.[0];
-    const text =
-      raw?.text ||
-      raw?.content?.[0]?.text ||
-      "";
-
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      return res.status(500).json({ ok: false, error: "GPT 응답 JSON 파싱 실패" });
-    }
-
-    let resumeJSON = {};
-    try {
-      resumeJSON = JSON.parse(jsonMatch[0]);
-    } catch (err) {
-      return res.status(500).json({ ok: false, error: "GPT JSON을 파싱할 수 없습니다." });
-    }
+    const resumeJSON = ai.data;
+    console.log("AI Resume JSON:", resumeJSON);
 
     // PDF 생성
     const pdfFile = await generateResumePDF({
@@ -107,16 +62,15 @@ exports.generateResume = async (req, res) => {
       phone,
       position: desiredRole,
       summary: resumeJSON.summary,
-      skills: resumeJSON.skills,
-      projects: resumeJSON.projects,
+      skills: resumeJSON.skills || [],
+      projects: resumeJSON.projects || [],
       education,
     });
 
     return res.json({
       ok: true,
-      pdf: `/api/resume/download/${pdfFile}`,
+      pdf: `/files/${pdfFile}`,
     });
-
   } catch (err) {
     console.error("[generateResume error]", err);
     return res.status(500).json({
@@ -126,19 +80,12 @@ exports.generateResume = async (req, res) => {
   }
 };
 
-
-/**
- * ===========================
- *  🔥 이력서 PDF 다운로드
- * ===========================
- */
-exports.downloadResume = async (req, res) => {
+// ---------------------------------------------------------
+// 🔥 PDF 파일 다운로드
+// ---------------------------------------------------------
+exports.downloadResume = (req, res) => {
   try {
-    let { fileName } = req.params;
-
-    // 보안 처리 (경로 공격 방지)
-    fileName = path.basename(fileName);
-
+    const fileName = req.params.fileName;
     const filePath = path.join(__dirname, "../../uploads/resumes", fileName);
 
     if (!fs.existsSync(filePath)) {
@@ -153,7 +100,7 @@ exports.downloadResume = async (req, res) => {
     console.error("[downloadResume error]", err);
     return res.status(500).json({
       ok: false,
-      error: "파일 다운로드 중 오류 발생",
+      error: "파일 다운로드 실패",
     });
   }
 };
