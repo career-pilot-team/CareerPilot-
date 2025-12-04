@@ -1,3 +1,4 @@
+// src/components/Feature2Page.jsx
 import React, { useEffect, useMemo, useState } from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import axios from "axios";
@@ -6,7 +7,7 @@ import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
 
 // 도넛 차트 색상
-const CHART_COLORS = ["#7C3AED", "#e34234", "#E5E7EB"];
+const CHART_COLORS = ["#7C3AED", "#8FD3FE", "#E5E7EB"];
 
 function Feature2Page() {
   const token = localStorage.getItem("token");
@@ -16,6 +17,7 @@ function Feature2Page() {
   // ToDo용 트랙/태스크
   const [tracks, setTracks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false); // ✅ 저장 중 상태
 
   // 1) 나의 최신 추천 결과 불러오기
   useEffect(() => {
@@ -42,7 +44,7 @@ function Feature2Page() {
           result.tracks?.map((t) => ({
             id: t.id,
             title: t.title,
-            color: "#e34234",
+            color: "#8FD3FE",
             tasks: t.tasks.map((task) => ({
               id: task.id,
               label: task.label,
@@ -61,17 +63,8 @@ function Feature2Page() {
       });
   }, [token]);
 
-  // 2) 체크박스 토글 → PATCH /api/tasks/:taskId
+  // 2) 체크박스 토글 → 프론트 상태만 변경 (서버 호출 X)
   const handleToggleTask = (trackId, taskId) => {
-    const targetTrack = tracks.find((t) => t.id === trackId);
-    if (!targetTrack) return;
-
-    const targetTask = targetTrack.tasks.find((t) => t.id === taskId);
-    if (!targetTask) return;
-
-    const nextDone = !targetTask.done;
-
-    // 낙관적 업데이트(프론트 먼저 반영)
     setTracks((prev) =>
       prev.map((track) =>
         track.id !== trackId
@@ -79,30 +72,58 @@ function Feature2Page() {
           : {
               ...track,
               tasks: track.tasks.map((task) =>
-                task.id === taskId ? { ...task, done: nextDone } : task
+                task.id === taskId ? { ...task, done: !task.done } : task
               ),
             }
       )
     );
+  };
 
-    axios
-      .patch(
-        `/api/tasks/${taskId}`,
-        { isDone: nextDone },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then(() => {
-        // 성공 시 따로 할 작업 없으면 생략
-      })
-      .catch((err) => {
-        console.error("체크리스트 업데이트 오류: ", err);
-        // 실패 시 롤백까지 하고 싶으면 여기서 setTracks로 되돌리는 로직 추가 가능
+  // 3) "체크리스트 저장하기" 버튼 → 모든 task 상태를 서버에 저장
+  const handleSaveAllTasks = async () => {
+    if (!token) {
+      alert("로그인 후 체크리스트를 저장할 수 있어요!");
+      return;
+    }
+
+    // 현재 화면에 있는 모든 task를 평탄화
+    const allTasks = [];
+    tracks.forEach((track) => {
+      track.tasks.forEach((task) => {
+        allTasks.push({ id: task.id, isDone: task.done });
       });
+    });
+
+    if (allTasks.length === 0) {
+      alert("저장할 체크리스트 항목이 없습니다.");
+      return;
+    }
+
+    try {
+      setSaving(true);
+
+      await Promise.all(
+        allTasks.map((t) =>
+          axios.patch(
+            `/api/tasks/${t.id}`,
+            { isDone: t.isDone },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          )
+        )
+      );
+
+      alert("체크리스트가 저장되었습니다! ✅");
+    } catch (err) {
+      console.error("체크리스트 전체 저장 오류: ", err);
+      alert("저장 중 오류가 발생했습니다. 다시 시도해 주세요.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   // 트랙별 진행률
@@ -236,7 +257,34 @@ function Feature2Page() {
 
         {/* To Do & 성장 트래커 */}
         <section className="todo-section">
-          <h3 className="todo-title">To Do</h3>
+          {/* 제목 + 저장 버튼 한 줄 */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "8px",
+            }}
+          >
+            <h3 className="todo-title">To Do</h3>
+            <button
+              type="button"
+              onClick={handleSaveAllTasks}
+              disabled={saving || tracks.length === 0}
+              style={{
+                borderRadius: "999px",
+                padding: "6px 14px",
+                fontSize: "13px",
+                border: "1px solid #2563eb",
+                background: saving ? "#e5e7eb" : "#eff6ff",
+                color: "#2563eb",
+                cursor:
+                  saving || tracks.length === 0 ? "default" : "pointer",
+              }}
+            >
+              {saving ? "저장 중..." : "체크리스트 저장하기"}
+            </button>
+          </div>
 
           <div className="todo-columns">
             {tracks.map((track) => {

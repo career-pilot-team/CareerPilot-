@@ -261,7 +261,7 @@
 .todo-item input[type="checkbox"] {
   width: 15px;
   height: 15px;
-  accent-color: #e34234; /* 체크박스 색 */
+  accent-color: #8FD3FE; /* 체크박스 색 */
 }
 
 /* 반응형 */
