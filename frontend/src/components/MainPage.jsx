@@ -107,7 +107,9 @@ const MainPage = () => {
               나의 직무/자격증/스킬에 맞는 채용공고
               
             </h3>
-            <button className="feature-btn">나에게 딱 맞는 채용공고 보러가기</button>
+            <Link to="/resume" className="feature-btn">
+              나에게 딱 맞는 이력서 만들기
+            </Link>
           </div>
         </article>
       </section>

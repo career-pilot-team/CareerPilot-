@@ -1,0 +1,208 @@
+/* 전체 페이지 래퍼 */
+.resume-page-wrapper {
+  min-height: 100vh;
+  background: radial-gradient(circle at top left, #edf1ff 0, #f8f7ff 45%, #ffffff 100%);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ===== 공용 헤더 ===== */
+.resume-page-wrapper .header {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  background: #ffffff;
+  border-radius: 0 0 18px 18px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.resume-page-wrapper .logo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.resume-page-wrapper .feature2-logo {
+  height: 32px;
+  width: auto;
+  display: block;
+}
+
+.resume-page-wrapper .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 14px;
+}
+
+.resume-page-wrapper .nav-links a {
+  color: #475569;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.resume-page-wrapper .nav-links a:hover {
+  color: #2563eb;
+}
+
+/* ===== 메인 내용 ===== */
+
+.resume-page {
+  max-width: 1080px;
+  margin: 32px auto 80px;
+  padding: 0 16px;
+}
+
+/* 배너 + 폼을 같은 폭으로 맞추기 */
+.resume-hero,
+.resume-form {
+  max-width: 840px;      /* 폼 카드 폭 */
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* 상단 배너 카드 */
+.resume-hero {
+  margin-bottom: 24px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 22px 45px rgba(15, 23, 42, 0.12);
+  background: transparent;
+}
+
+.resume-hero-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* 제목 */
+.resume-page h1 {
+  max-width: 840px;
+  margin: 24px auto 16px;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #020617;
+}
+
+/* 폼 카드 */
+.resume-form {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 32px 32px 40px;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+
+/* 섹션 제목 */
+.resume-form h2 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  border-left: 4px solid #2563eb;
+  padding-left: 10px;
+}
+
+/* 필드 래퍼 */
+.resume-form > div {
+  margin-bottom: 16px;
+}
+
+/* 라벨 */
+.resume-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+/* 인풋 / 텍스트에어리어 공통 */
+.resume-form input,
+.resume-form textarea {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  padding: 10px 12px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  background-color: #f8fafc;
+}
+
+.resume-form input:focus,
+.resume-form textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.15);
+  background-color: #ffffff;
+}
+
+.resume-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* 버튼 */
+.resume-form button[type="submit"] {
+  margin-top: 20px;
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  cursor: pointer;
+  box-shadow: 0 12px 25px rgba(37, 99, 235, 0.35);
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    filter 0.12s ease;
+}
+
+.resume-form button[type="submit"]:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 30px rgba(37, 99, 235, 0.4);
+  filter: brightness(1.05);
+}
+
+.resume-form button[type="submit"]:disabled {
+  opacity: 0.7;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* 결과 / 오류 영역 */
+.resume-result,
+.resume-page-wrapper p[style] {
+  max-width: 840px;
+  margin: 16px auto 0;
+  font-size: 14px;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .resume-page-wrapper .header {
+    border-radius: 0 0 12px 12px;
+    padding: 12px 16px;
+  }
+
+  .resume-page-wrapper .nav-links {
+    gap: 12px;
+    font-size: 13px;
+  }
+
+  .resume-form {
+    padding: 24px 18px 28px;
+    border-radius: 18px;
+  }
+
+  .resume-page h1 {
+    font-size: 26px;
+  }
+}

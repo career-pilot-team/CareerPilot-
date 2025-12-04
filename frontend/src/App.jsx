@@ -7,6 +7,8 @@ import RoadmapOutput from "./components/RoadmapOutput";
 import MainPage from "./components/MainPage";
 import MyPage from "./components/MyPage";
 import Feature2Page from "./components/Feature2Page";
+import ResumeGeneratePage from "./components/ResumeGeneratePage";
+
 
 
 function App() {
@@ -24,7 +26,10 @@ function App() {
 
         {/* 추천입력/추천결과 페이지*/}
         <Route path="/roadmap-input" element={<RoadmapInput />} />
-        <Route path="/roadmap-output" element={<RoadmapOutput />} />        
+        <Route path="/roadmap-output" element={<RoadmapOutput />} />   
+        
+        {/* ⭐ 기능3: 이력서 생성 페이지 */}
+        <Route path="/resume" element={<ResumeGeneratePage />} />     
       </Routes>
     </BrowserRouter>
   )
