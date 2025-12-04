@@ -61,6 +61,7 @@
   border: 1px solid #e2e8f0;
   background: #ffffff;
   box-shadow: 0 4px 12px rgba(148, 163, 184, 0.18);
+ 
 }
 
 .summary-label {
@@ -232,3 +233,98 @@
     height: 28px;
   } 
 }  
+
+/* --- 추천 카드 공통 스타일 --- */
+.recommend-card {
+  display: flex;
+  align-items: center;   /* 🔥 flex-start → center 로 수정 (세로 중앙 정렬) */
+  gap: 16px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+    box-sizing: border-box;
+  height: 230px;   
+}
+
+/* 왼쪽 아이콘 영역 */
+.recommend-icon {
+  width: 150px;   /* 56 → 64 로 살짝 크게 */
+  height: 150px;  /* 56 → 64 로 살짝 크게 */
+  flex-shrink: 0;
+}
+
+/* 오른쪽 내용 영역 */
+.recommend-body {
+  flex: 1;
+}
+
+.recommend-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.recommend-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.recommend-empty {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.recommend-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.recommend-row {
+  display: flex;
+  justify-content: center; 
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 960px; 
+  margin-top: 24px;
+  gap: 24px;
+  align-items: stretch;     /* 각 카드 높이를 같은 줄로 쭉 맞춤 */
+}
+
+/* 제목 아래에만 들어가는 파란 캡슐 배경 */
+.roadmap-bg {
+  margin: 12px auto 0;
+  padding: 32px 120px;       /* 위아래 / 좌우 여백 넉넉하게 줘서 안으로 넣기 */
+  max-width: 900px;
+  border-radius: 999px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.roadmap-hero-wrapper {
+  display: flex;
+  justify-content: center;   /* 두 이미지를 세트로 가운데 정렬 */
+  align-items: center;
+  gap: 32px;                  /* 서로 떨어지는 간격 */
+  margin-bottom: 24px;        /* 아래 요약 카드랑 간격 */
+}
+
+.roadmap-hero {
+  max-height: 220px;          /* 둘 다 너무 크지 않게 */
+  width: auto;
+  object-fit: contain;
+}
+
+/* 필요하면 왼쪽/오른쪽 따로 크기 조절도 가능 */
+.roadmap-hero-left {
+  max-height: 200px;
+}
+
+.roadmap-hero-right {
+  max-height: 220px;
+}
