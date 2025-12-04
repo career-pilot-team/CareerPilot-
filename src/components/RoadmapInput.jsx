@@ -1,7 +1,11 @@
 // src/components/RoadmapInput.jsx
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import "./Feature2Page.css";   // 헤더 스타일 재사용
 import "./RoadmapInput.css";
+
+import logo from "../assets/logo.png";     // ✅ 빼먹었던 로고 import
 import f1input from "../assets/f1input.png"; // 상단 일러스트
 
 const JOB_PRESETS = [
@@ -43,6 +47,8 @@ const RoadmapInput = () => {
 
     const payload = {
       major,
+      // 🟡 백엔드가 desiredJob / desiredRole 중 무엇을 쓰는지에 맞춰야 함
+      // 현재는 너가 쓰던 키 유지
       desiredRole: desiredJob,
       interests: interestsText
         .split(",")
@@ -80,7 +86,20 @@ const RoadmapInput = () => {
   return (
     <div className="feature2-page">
       <div className="feature2-container">
-        <section className="roadmap-input-section">
+        {/* 🔥 공통 헤더 (로고 + 로그인/회원가입/마이페이지) */}
+        <header className="header">
+          <Link to="/" className="logo-link">
+            <img src={logo} alt="logo" className="feature2-logo" />
+          </Link>
+          <nav className="nav-links">
+            <Link to="/login">로그인</Link>
+            <Link to="/register">회원가입</Link>
+            <Link to="/mypage">마이페이지</Link>
+          </nav>
+        </header>
+
+        {/* 로드맵 입력 섹션 */}
+        <section className="roadmap-input-page">
           <h2 className="roadmap-input-title">나의 로드맵 설정</h2>
           <p className="roadmap-input-subtitle">
             전공, 희망 직무, 관심 분야, 보유 기술을 입력하면
@@ -97,7 +116,7 @@ const RoadmapInput = () => {
             />
           </div>
 
-          {/* 💡 왼쪽: 폼 / 오른쪽: 설명 카드 */}
+          {/* 왼쪽: 폼 / 오른쪽: 설명 카드 */}
           <div className="roadmap-input-grid">
             {/* 폼 카드 */}
             <div className="roadmap-input-card">
@@ -193,7 +212,7 @@ const RoadmapInput = () => {
               </form>
             </div>
 
-            {/* 👉 오른쪽 설명 카드 */}
+            {/* 오른쪽 설명 카드 */}
             <aside className="roadmap-sidecard">
               <h3>이런 정보도 알려줘요</h3>
               <ul>

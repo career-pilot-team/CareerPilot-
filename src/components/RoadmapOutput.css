@@ -1,0 +1,234 @@
+/* 페이지 전체 레이아웃 */
+.roadmap-page {
+  padding: 40px 24px;
+  max-width: 960px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: #f7fafc;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  color: #111827;
+}
+
+.roadmap-page--empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 헤더 */
+.roadmap-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.roadmap-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* 버튼 공통 */
+.btn-primary,
+.btn-outline {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  border: none;
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.btn-outline {
+  border: 1px solid #2563eb;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+/* 요약 카드 */
+.summary-card {
+  margin-bottom: 28px;
+  padding: 20px 24px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(148, 163, 184, 0.18);
+}
+
+.summary-label {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+  margin: 0 0 4px 0;
+}
+
+.summary-job {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+}
+
+.summary-job-name {
+  font-weight: 700;
+}
+
+.summary-text {
+  margin: 0 0 6px 0;
+  color: #4b5563;
+}
+
+/* 2컬럼 카드 섹션 */
+.grid-section {
+  margin-bottom: 32px;
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.card {
+  flex: 1;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 18px 20px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(148, 163, 184, 0.12);
+}
+
+.card-title {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+}
+
+.card-list {
+  padding-left: 18px;
+  margin: 0;
+}
+
+.card-empty {
+  margin: 0;
+  color: #6b7280;
+}
+
+/* 로드맵 카드 */
+.roadmap-section {
+  margin-bottom: 32px;
+}
+
+.roadmap-section-title {
+  font-size: 18px;
+  margin: 0 0 12px 0;
+}
+
+.roadmap-card {
+   border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 0 auto 16px auto;   /* 좌우 auto → flex 안에서도 가운데로 */
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(148,163,184,0.16);
+}
+
+.roadmap-step {
+  margin: 0 0 6px 0;
+  font-weight: 600;
+}
+
+.roadmap-node-title {
+  margin: 4px 0;
+  font-weight: 500;
+}
+
+.roadmap-node-reason {
+  margin: 2px 0 10px 0;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.roadmap-tasks-label {
+  margin: 8px 0 4px 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.roadmap-tasks-list {
+  margin: 0 0 0 18px;
+  padding: 0;
+}
+
+/* 반응형 - 좁은 화면에서는 1컬럼 */
+@media (max-width: 768px) {
+  .roadmap-page {
+    padding: 24px 16px;
+  }
+
+  .roadmap-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .grid-section {
+    flex-direction: column;
+  }
+
+}
+
+/* 로드맵 카루셀 레이아웃 */
+.roadmap-carousel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 좌우 네비 버튼 */
+.nav-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* 인디케이터 */
+.roadmap-indicator {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #6b7280;
+  text-align: center;
+}
+
+/* 모바일에서는 버튼 / 카드 폭 조정 */
+@media (max-width: 768px) {
+  .roadmap-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;  /* 🔥 이 줄 추가 */
+  gap: 12px;
+  }
+
+  .nav-btn {
+    width: 28px;
+    height: 28px;
+  } 
+}  
