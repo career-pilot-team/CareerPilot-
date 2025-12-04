@@ -82,6 +82,8 @@
 
 #version: "3.9"
 
+
+#docker-compose.yml
 services:
   mysql:
     image: mysql:latest
@@ -106,29 +108,34 @@ services:
       - career-net
 
   backend:
-    build: ../backend
-    container_name: career-backend
-    restart: unless-stopped
-    ports:
-      - "4000:4000"
-    depends_on:
-      mysql:
-        condition: service_healthy
-    env_file:
-      - ../backend/.env
-    networks:
-      - career-net
+   build:
+    context: ../backend
+    dockerfile: Dockerfile
+   container_name: career-backend
+   restart: unless-stopped
+   ports:
+    - "4000:4000"
+   env_file:
+    - ../backend/.env
+   volumes:
+    - ../backend/uploads:/app/uploads
+   depends_on:
+    mysql:
+      condition: service_healthy
+   networks:
+    - career-net
+
 
   ai-server:
     build: ../ai-server
     container_name: career-ai
     ports:
-      - "8000:8000"
-    environment:
-      - OPENAI_API_KEY={""}
-      - OPENAI_MODEL=gpt-3.5-turbo
+    - "8000:8000"
+    env_file:
+    - ../ai-server/.env
     networks:
-      - career-net
+    - career-net
+
 
   # 🔥 프론트 수정됨: 진짜 프론트는 프로젝트 루트임
   frontend:
