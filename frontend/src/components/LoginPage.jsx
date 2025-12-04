@@ -3,7 +3,7 @@ import "./LoginPage.css";
 import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 
-const API_BASE_URL = "http://localhost:4000/api";
+const API_BASE_URL = "/api";
 
 const LoginPage = () => {
   const navigate = useNavigate();
