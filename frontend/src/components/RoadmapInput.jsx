@@ -5,8 +5,10 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Feature2Page.css";   // 헤더 스타일 재사용
 import "./RoadmapInput.css";
 
-import logo from "../assets/logo.png";     // ✅ 빼먹었던 로고 import
+import logo from "../assets/b_logo.png";     // ✅ 빼먹었던 로고 import
 import f1input from "../assets/f1input.png"; // 상단 일러스트
+import Footer from "./Footer";
+
 
 const JOB_PRESETS = [
   "데이터 엔지니어",
@@ -242,6 +244,7 @@ const RoadmapInput = () => {
           </div>
         </section>
       </div>
+      <Footer />
     </div>
   );
 };

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import logo from "../assets/logo.png";
+import logo from "../assets/b_logo.png";
 import certIcon from "../assets/자격증.png";
 import skillIcon from "../assets/skill3.png";
 import outputHero from "../assets/output.png";

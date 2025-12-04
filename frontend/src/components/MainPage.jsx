@@ -2,12 +2,14 @@ import React from "react";
 import "./MainPage.css";
 import { Link } from "react-router-dom";
 
-import logo from "../assets/logo.png";
+import logo from "../assets/b_logo.png";
 import mainImg1 from "../assets/mainImg_1.jpg";
 import mainImg2 from "../assets/mainImg_2.png";
 import mainImg3 from "../assets/mainImg_3.jpg";
 import mainImg4 from "../assets/mainImg_4.jpg";
 import mainImg5 from "../assets/mainImg_5.png";
+import Footer from "./Footer";
+
 
 const MainPage = () => {
   return (
@@ -113,6 +115,8 @@ const MainPage = () => {
           </div>
         </article>
       </section>
+      <Footer />
+
     </div>
   );
 };

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import "./LoginPage.css";
-import logo from "../assets/logo.png";
+import logo from "../assets/b_logo.png";
 import { Link, useNavigate } from "react-router-dom";
+import Footer from "./Footer";
+
 
 const API_BASE_URL = "/api";
 
@@ -116,6 +118,8 @@ const LoginPage = () => {
           </button>
         </form>
       </main>
+      <Footer />
+
     </div>
   );
 };

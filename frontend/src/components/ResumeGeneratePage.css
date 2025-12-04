@@ -27,7 +27,7 @@
 }
 
 .resume-page-wrapper .feature2-logo {
-  height: 32px;
+  height: 48px;
   width: auto;
   display: block;
 }
@@ -204,5 +204,11 @@
 
   .resume-page h1 {
     font-size: 26px;
+  }
+}
+
+@media (max-width: 768px) {
+  .feature2-logo {
+    height: 38px;
   }
 }

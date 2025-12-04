@@ -3,8 +3,10 @@ import React, { useEffect, useMemo, useState } from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import axios from "axios";
 import "./Feature2Page.css";
-import logo from "../assets/logo.png";
+import logo from "../assets/b_logo.png";
 import { Link } from "react-router-dom";
+import Footer from "./Footer";
+
 
 // 도넛 차트 색상
 const CHART_COLORS = ["#7C3AED", "#8FD3FE", "#E5E7EB"];
@@ -327,6 +329,8 @@ function Feature2Page() {
           </div>
         </section>
       </div>
+      <Footer />
+
     </div>
   );
 }

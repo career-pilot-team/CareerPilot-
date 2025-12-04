@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./MyPage.css";
-import logo from "../assets/logo.png";
+import logo from "../assets/b_logo.png";
 import { Link } from "react-router-dom";
+import Footer from "./Footer";
+
 
 function MyPage() {
   const token = localStorage.getItem("token");
@@ -228,6 +230,8 @@ function MyPage() {
           </button>
         </div>
       </main>
+      <Footer />
+
     </div>
   );
 }

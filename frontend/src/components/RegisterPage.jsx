@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import "./RegisterPage.css";
-import logo from "../assets/logo.png";
+import logo from "../assets/b_logo.png";
 import { Link, useNavigate } from "react-router-dom";
+import Footer from "./Footer";
+
 
 const API_BASE_URL = "/api";
 
@@ -148,6 +150,8 @@ const RegisterPage = () => {
             </button>
           </form>
         </main>
+        <Footer />
+
       </div>
     </>
   );

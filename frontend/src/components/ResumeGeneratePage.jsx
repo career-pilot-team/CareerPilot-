@@ -4,7 +4,8 @@ import { useNavigate, Link } from "react-router-dom"; // ✅ Link 같이 import
 import axios from "axios";
 import "./ResumeGeneratePage.css";   // 👈 이 줄 추가
 import pdfImg from "../assets/pdf.png";   // ✅ 추가
-import logo from "../assets/logo.png"; // 경로는 feature2 페이지랑 똑같이
+import logo from "../assets/b_logo.png"; // 경로는 feature2 페이지랑 똑같이
+import Footer from "./Footer";
 
 
 
@@ -153,7 +154,7 @@ const ResumeGeneratePage = () => {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="예: 정현용"
+            placeholder="예: 정헌용"
             required
           />
         </div>
@@ -280,6 +281,8 @@ const ResumeGeneratePage = () => {
         </div>
       )}
     </div>
+    <Footer />
+
 </div>
 
   );
