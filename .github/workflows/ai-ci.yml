@@ -5,7 +5,7 @@ on:
     branches: [ Develop ]
     paths:
       - "ai-server/**"
-      - ".github/workflows/ai-server-ci.yml"
+      - ".github/workflows/ai-ci.yml"
   pull_request:
     branches: [ Develop ]
     paths:
