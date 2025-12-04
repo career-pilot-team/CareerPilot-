@@ -14,6 +14,9 @@ on:
 jobs:
   ai-server-ci:
     runs-on: ubuntu-latest
+    env:
+      # 🔥 CI용 더미 OPENAI_KEY (실제로 호출 안됨)
+      OPENAI_API_KEY: ${{ secrets.AI_OPENAI_API_KEY }}
 
     steps:
       # 1) 코드 체크아웃
