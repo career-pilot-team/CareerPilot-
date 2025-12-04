@@ -2,10 +2,9 @@
 const express = require("express");
 const router = express.Router();
 const { verifyToken } = require("../middleware/authMiddleware");
-
 const resumeController = require("../controllers/resumeController");
 
-// 이력서 생성
+// AI JSON 생성 + PDF 생성
 router.post("/generate", verifyToken, resumeController.generateResume);
 
 // PDF 다운로드
