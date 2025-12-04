@@ -1,0 +1,57 @@
+name: AI Server CI
+
+on:
+  push:
+    branches: [ Develop ]
+    paths:
+      - "ai-server/**"
+      - ".github/workflows/ai-server-ci.yml"
+  pull_request:
+    branches: [ Develop ]
+    paths:
+      - "ai-server/**"
+
+jobs:
+  ai-server-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) 코드 체크아웃
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2) Python 3.11 설정
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      # 3) 의존성 설치
+      - name: Install dependencies
+        working-directory: ai-server
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 4) FastAPI 앱 import 테스트 (기본 문법 체크)
+      - name: FastAPI app import test
+        working-directory: ai-server
+        run: python -c "import main; print('FastAPI app import OK')"
+
+      # 5) DockerHub 로그인
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 6) AI 서버 이미지 빌드 + 푸시
+      - name: Build and push ai-server image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./ai-server
+          file: ./ai-server/Dockerfile.prod
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/career-ai-server:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/career-ai-server:${{ github.sha }}
