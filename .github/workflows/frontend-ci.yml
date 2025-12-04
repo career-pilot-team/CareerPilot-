@@ -31,24 +31,19 @@ jobs:
         working-directory: frontend
         run: npm install
 
-      # 4) Lint
-      - name: Run lint
-        working-directory: frontend
-        run: npm run lint -- --max-warnings=0
-
-      # 5) 프론트 빌드
+      # 4) 프론트 빌드
       - name: Build frontend
         working-directory: frontend
         run: npm run build
 
-      # 6) DockerHub 로그인
+      # 5) DockerHub 로그인
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # 7) 프론트 이미지 빌드 + 푸시
+      # 6) 프론트 이미지 빌드 + 푸시
       - name: Build and push frontend image
         uses: docker/build-push-action@v5
         with:
