@@ -104,10 +104,9 @@ const MainPage = () => {
             className="feature-image"
           />
           <div className="feature-content">
-            <p className="feature-tag">채용 공고 찾기 어려우시죠?</p>
+            <p className="feature-tag">포트폴리오 어떻게 시작할지 막막하시죠?</p>
             <h3 className="feature-title">
-              나의 직무/자격증/스킬에 맞는 채용공고
-              
+              AI 포트폴리오 자동 생성              
             </h3>
             <Link to="/resume" className="feature-btn">
               나에게 딱 맞는 이력서 만들기
